@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
     public float Force;
     public float Lifetime = 5f;
 
-    public void Spawn()
+    public void Spawn(SpawnEvent e)
     {
         GameObject prefab = FruitPrefabs[Random.Range(0, FruitPrefabs.Length)];
         GameObject fruit = Instantiate(prefab, this.transform.position, Random.rotation);

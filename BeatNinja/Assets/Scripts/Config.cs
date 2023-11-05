@@ -8,9 +8,16 @@ public sealed class Config
 
     public sealed class MidiParsing
     {
-        public const string SpawnTrackName = "Spawn";
-        public const int LeftSpawnNote = 94;
-        public const int RightSpawnNote = 95;
+        public const string LeftSpawnTrackName = "beatninja-spawn-left";
+        public const int LeftSpawnOffset = 96;      // C7 Note
+
+        public const string RightSpawnTrackName = "beatninja-spawn-right";
+        public const int RightSpawnOffset = 101;    // F7 Note
+
+        public const int SpawnNote = 0;
+        public const int SpawnDoubleNote = 1;
+        public const int SpawnSpamNote = 2;
+
     }
 
     public sealed class User {

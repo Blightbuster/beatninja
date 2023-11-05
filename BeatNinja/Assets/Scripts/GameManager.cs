@@ -48,8 +48,11 @@ public class GameManager : MonoBehaviour
 
     private void ExecuteSongEvent(SongEvent e)
     {
-        if (e is LeftSpawnEvent) LeftSpawner.Spawn();
-        if (e is RightSpawnEvent) RightSpawner.Spawn();
+        if (e is SpawnEvent spawnEvent)
+        {
+            if (spawnEvent.Side == SpawnerSide.Left) LeftSpawner.Spawn(spawnEvent);
+            if (spawnEvent.Side == SpawnerSide.Right) RightSpawner.Spawn(spawnEvent);
+        }
     }
 
     private void NewGame()

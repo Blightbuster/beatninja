@@ -12,4 +12,8 @@ public sealed class Config
         public const int LeftSpawnNote = 94;
         public const int RightSpawnNote = 95;
     }
+
+    public sealed class User {
+        public static float LatencyOffset = 0f;
+    }
 }

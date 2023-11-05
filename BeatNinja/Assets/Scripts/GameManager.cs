@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
     public SliceArea LeftSliceArea;
     public SliceArea RightSliceArea;
 
-    public float SongOffset;
-
     private int _score;
     private Song _activeSong;
     private float _startTime;
@@ -40,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         var timeSinceStart = Time.time - _startTime;
         var nextEventTime = _activeSong.Events.Peek().Time;
-        var totalOffset = SongOffset + Config.SliceableFlightOffset;
+        var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
         while (timeSinceStart > (nextEventTime + totalOffset))
         {
             ExecuteSongEvent(_activeSong.Events.Dequeue());

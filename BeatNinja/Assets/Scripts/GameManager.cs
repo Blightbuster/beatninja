@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +6,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public SongManager SongManager;
+
+    public AudioSource SoundSource;
 
     public Text ScoreText;
     public Image FadeImage;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
         while (timeSinceStart > (nextEventTime + totalOffset))
         {
+            if (_activeSong.Events.Count == 0) break;
             ExecuteSongEvent(_activeSong.Events.Dequeue());
             nextEventTime = _activeSong.Events.Peek().Time;
         }
@@ -67,7 +69,8 @@ public class GameManager : MonoBehaviour
         ScoreText.text = _score.ToString();
         _activeSong = SongManager.Songs[0];
         _startTime = Time.time;
-        AudioSource.PlayClipAtPoint(_activeSong.Audio, Camera.main.transform.position);
+
+        SoundSource.PlayOneShot(_activeSong.Audio);
     }
 
     private void ClearScene()

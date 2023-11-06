@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Sliceable : MonoBehaviour
 {
+    public bool IsSliced = false;
+
     /// <summary>
     /// Slices the object
     /// </summary>

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class Fruit : Sliceable
+public class SpamFruit : Sliceable
 {
     public GameObject WholeObject;
     public GameObject SlicedObject;
@@ -10,9 +10,9 @@ public class Fruit : Sliceable
     private Rigidbody _fruitRigidbody;
     private Collider _fruitCollider;
     private ParticleSystem _juiceEffect;
+    private float _firstHitTime = float.MaxValue;
 
-    private int _hitCount = 0;
-    public int HitsNeeded = 1;
+    public float Duration;
 
     private void Awake()
     {
@@ -21,16 +21,20 @@ public class Fruit : Sliceable
         _juiceEffect = GetComponentInChildren<ParticleSystem>();
     }
 
+    private void Update()
+    {
+        if (Time.time > _firstHitTime + Duration) Explode();
+    }
+
     public override float Slice(Vector2 dir)
     {
-        _hitCount++;
+        if (_firstHitTime == float.MaxValue) _firstHitTime = Time.time;
         _juiceEffect.Play();
-
-        if (HitsNeeded == _hitCount) return FinalSlice(dir);
+        _fruitRigidbody.isKinematic = true;
         return Config.MaxHitPoints;
     }
 
-    private float FinalSlice(Vector2 dir)
+    private float Explode()
     {
         IsSliced = true;
 
@@ -52,7 +56,7 @@ public class Fruit : Sliceable
         foreach (Rigidbody slice in slices)
         {
             slice.velocity = _fruitRigidbody.velocity;
-            slice.AddForceAtPosition(dir * 2, dir, ForceMode.Impulse);
+            slice.AddForceAtPosition(Vector2.up * 2, Vector2.up, ForceMode.Impulse);
         }
         return Config.MaxHitPoints;
     }

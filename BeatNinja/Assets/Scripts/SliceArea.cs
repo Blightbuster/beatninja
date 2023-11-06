@@ -22,7 +22,8 @@ public class SliceArea : MonoBehaviour
         if (dir.y < 0) dir.y *= -1;
         if(!Blade.Slice(dir)) return 0;
 
-        var sliceables = FindObjectsByType<Sliceable>(FindObjectsSortMode.None);
+        // Find all non-sliced sliceables
+        var sliceables = FindObjectsByType<Sliceable>(FindObjectsSortMode.None).Where(s => !s.IsSliced);
 
         // Since we dont care about the z-axis transmuting is fine here
         var ordered = sliceables.OrderBy(x => Vector2.Distance(x.transform.position, this.transform.position));

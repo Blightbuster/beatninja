@@ -57,22 +57,36 @@ public class Song
     private List<SongEvent> ParseSpawnTrack(MidiTrack track, SpawnerSide side)
     {
         var events = new List<SongEvent>();
+        var notesDown = new List<MidiEvent>();
+
         foreach (var e in track.MidiEvents)
         {
             if (e.Type == (byte)MidiEventType.NoteOn)
             {
+                // Check if note is already held down and add it if not
+                if (!notesDown.Any(n => n.Note == e.Note)) notesDown.Add(e);
+            }
+            else if (e.Type == (byte)MidiEventType.NoteOff)
+            {
+                var off = e;
 
-                SpawnEvent spawnEvent = (e.Note - GetOffset(side)) switch
+                // This should never throw an exception since every noteOff event must be preceded by a noteOn event
+                var on = notesDown.Where(n => n.Note == off.Note).First();
+                notesDown.Remove(on);
+                
+                var duration = TicksToTime(off.Time - on.Time);
+
+                SpawnEvent spawnEvent = (on.Note - GetOffset(side)) switch
                 {
                     Config.MidiParsing.SpawnNote => new SpawnNoteEvent(),
                     Config.MidiParsing.SpawnDoubleNote => new SpawnNoteEvent() { HitsNeeded = 2 },
-                    Config.MidiParsing.SpawnSpamNote => new SpawnSpamNoteEvent(),
-                    _ => throw new ArgumentOutOfRangeException($"Unknown spawn event {e.Note}"),
+                    Config.MidiParsing.SpawnSpamNote => new SpawnSpamNoteEvent() { Duration = duration},
+                    _ => throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}"),
                 };
 
                 // Set correct spawning side and time
                 spawnEvent.Side = side;
-                spawnEvent.Time = TicksToTime(e.Time);
+                spawnEvent.Time = TicksToTime(on.Time);
 
                 events.Add(spawnEvent);
             }

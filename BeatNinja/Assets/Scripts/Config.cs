@@ -4,7 +4,7 @@ public sealed class Config
     public static int MissPenalty = -10;
     public static int MaxHitPoints = 100;
 
-    public static float SliceableFlightOffset = -2.5f;
+    public static float SliceableFlightOffset = -1.8f;
 
     public sealed class MidiParsing
     {

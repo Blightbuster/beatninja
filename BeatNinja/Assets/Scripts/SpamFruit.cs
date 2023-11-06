@@ -23,12 +23,12 @@ public class SpamFruit : Sliceable
 
     private void Update()
     {
-        if (Time.time > _firstHitTime + Duration) Explode();
+        if (GameManager.Instance.SongTime > _firstHitTime + Duration) Explode();
     }
 
     public override float Slice(Vector2 dir)
     {
-        if (_firstHitTime == float.MaxValue) _firstHitTime = Time.time;
+        if (_firstHitTime == float.MaxValue) _firstHitTime = GameManager.Instance.SongTime;
         _juiceEffect.Play();
         _fruitRigidbody.isKinematic = true;
         return Config.MaxHitPoints;

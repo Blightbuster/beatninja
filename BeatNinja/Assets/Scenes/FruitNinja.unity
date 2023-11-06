@@ -1397,7 +1397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SongManager: {fileID: 944443824}
-  SoundSource: {fileID: 963194229}
+  SongSource: {fileID: 963194229}
   ScoreText: {fileID: 860532809}
   FadeImage: {fileID: 1744158372}
   LeftSpawner: {fileID: 578727772}
@@ -1638,8 +1638,8 @@ Transform:
   m_GameObject: {fileID: 1715995385}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.66, y: -6.27, z: -0.95}
-  m_LocalScale: {x: 88.68994, y: 1, z: 33.50464}
+  m_LocalPosition: {x: 0, y: -11, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

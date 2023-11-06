@@ -28,7 +28,7 @@ public class Blade : MonoBehaviour
         if (!Config.AlwaysAllowSlicing && _slicing) return false;
         _start = dir * Radius;
         _end = dir * Radius * -1;
-        _startTime = Time.time;
+        _startTime = Time.unscaledTime;
         transform.localPosition = _start;
         _sliceTrail.enabled = true;
         _sliceTrail.Clear();
@@ -39,7 +39,7 @@ public class Blade : MonoBehaviour
     private void Update()
     {
         if (!_slicing) return;
-        var delta = Animation.Evaluate(Time.time - _startTime);
+        var delta = Animation.Evaluate(Time.unscaledTime - _startTime);
         if (delta >= 1)
         {
             StopSlice();

@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 
     public SongManager SongManager;
 
-    public AudioSource SoundSource;
+    public AudioSource SongSource;
+    public float SongTime => SongSource.time;
 
     public Text ScoreText;
     public Image FadeImage;
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     private int _score;
     private Song _activeSong;
-    private float _startTime;
 
     private void Awake()
     {
@@ -37,10 +37,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        var timeSinceStart = Time.time - _startTime;
         var nextEventTime = _activeSong.Events.Peek().Time;
         var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
-        while (timeSinceStart > (nextEventTime + totalOffset))
+        while (SongTime > (nextEventTime + totalOffset))
         {
             if (_activeSong.Events.Count == 0) break;
             ExecuteSongEvent(_activeSong.Events.Dequeue());
@@ -68,9 +67,9 @@ public class GameManager : MonoBehaviour
         _score = 0;
         ScoreText.text = _score.ToString();
         _activeSong = SongManager.Songs[0];
-        _startTime = Time.time;
 
-        SoundSource.PlayOneShot(_activeSong.Audio);
+        SongSource.clip = _activeSong.Audio;
+        SongSource.Play();
     }
 
     private void ClearScene()

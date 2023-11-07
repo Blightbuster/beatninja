@@ -22,8 +22,11 @@ public class Spawner : MonoBehaviour
         else if (e is SpawnSpamNoteEvent) prefabPool = SpamFruitPrefabs;
 
         var fruit = Instantiate(PickRandom(prefabPool), this.transform.position, Random.rotation);
-        fruit.GetComponent<Sliceable>().EventOrigin = e;
-        fruit.GetComponent<Rigidbody>().AddForce(this.transform.up * Force, ForceMode.Impulse);
+        var sliceable = fruit.GetComponent<Sliceable>();
+        sliceable.EventOrigin = e;
+        var rb = sliceable.GetComponent<Rigidbody>();
+        rb.AddForce(this.transform.up * Force, ForceMode.Impulse);
+        rb.angularVelocity = Random.insideUnitSphere;
 
         Destroy(fruit, Lifetime);   // Delete instance after lifetime has expired
     }

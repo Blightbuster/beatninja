@@ -1,31 +1,36 @@
+using JetBrains.Rider.Unity.Editor;
+using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
 public class Fruit : Sliceable
 {
-    public GameObject WholeObject;
-    public GameObject SlicedObject;
-
     private Rigidbody _fruitRigidbody;
     private Collider _fruitCollider;
-    private ParticleSystem _juiceEffect;
 
     private int _hitCount = 0;
     public int HitsNeeded = 1;
 
     private void Start()
     {
+        SanityCheck();
         _fruitRigidbody = GetComponent<Rigidbody>();
         _fruitCollider = GetComponent<Collider>();
-        _juiceEffect = GetComponentInChildren<ParticleSystem>();
         HitsNeeded = ((SpawnNoteEvent)EventOrigin).HitsNeeded;
+    }
+
+    protected new void SanityCheck()
+    {
+        base.SanityCheck();
     }
 
     public override float Slice(Vector2 dir)
     {
         _hitCount++;
-        _juiceEffect.Play();
+        SliceEffect.Play();
 
         if (HitsNeeded == _hitCount) return FinalSlice(dir);
         return Config.MaxHitPoints;
@@ -43,18 +48,26 @@ public class Fruit : Sliceable
         SlicedObject.SetActive(true);
 
         // Rotate based on the slice angle
-        Vector3 direction = this._fruitRigidbody.velocity;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        SlicedObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        Rigidbody[] slices = SlicedObject.GetComponentsInChildren<Rigidbody>();
-
-        // Add a force to each slice based on the blade direction
-        foreach (Rigidbody slice in slices)
-        {
-            slice.velocity = _fruitRigidbody.velocity;
-            slice.AddForceAtPosition(dir * 2, dir, ForceMode.Impulse);
-        }
+        var rb = this._fruitRigidbody.GetComponent<Rigidbody>();
+        rb.velocity += new Vector3(dir.x, dir.y, 0) * -4f;
+        HandleSlicedPieces();
         return Config.MaxHitPoints;
+    }
+
+    private void HandleSlicedPieces()
+    {
+        GameObject top = null;
+        GameObject bottom = null;
+        foreach (Transform t in SlicedObject.transform)
+        {
+            if (t.name.EndsWith("Top")) top = t.gameObject;
+            if (t.name.EndsWith("Bottom")) bottom = t.gameObject;
+            t.AddComponent<Rigidbody>();
+            t.AddComponent<SphereCollider>();
+            t.GetComponent<Rigidbody>().velocity = this._fruitRigidbody.velocity;
+        }
+
+        top.GetComponent<Rigidbody>().AddForce(Vector3.up*50);
+        bottom.GetComponent<Rigidbody>().AddForce(Vector3.down*50);
     }
 }

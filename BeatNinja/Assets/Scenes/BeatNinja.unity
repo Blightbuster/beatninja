@@ -462,14 +462,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FruitPrefabs:
-  - {fileID: 1345022896480124042, guid: a90ffa1befc33e4479cfb37fb5dece47, type: 3}
-  - {fileID: 9137535743039622809, guid: 6a28310721d8ca54086c5c300a663b94, type: 3}
-  - {fileID: 3469416261526121853, guid: d5e3dc92758004c448ebb9c91d4562cd, type: 3}
-  - {fileID: 6161171722280899850, guid: 024483f068cf0b145911881e8958d511, type: 3}
+  - {fileID: 5949034688047163283, guid: 49972ed34bc3e254d8f4768cec94bc98, type: 3}
+  - {fileID: 7176844630677679440, guid: 4b37c1d6b16aef24583190de9a247074, type: 3}
+  - {fileID: 4808369367518280583, guid: 6975af2821db32c4e8645a0adaa0e6c8, type: 3}
+  - {fileID: 272017129307097736, guid: 2dc43af3302190548be1d06b96450543, type: 3}
+  - {fileID: 1714283284627777194, guid: 2e3b62f99be89bf4c9ad0a36424d1183, type: 3}
+  - {fileID: 5622247086229272440, guid: dffbbabe0c56917428eb727b6d95b09f, type: 3}
   BigFruitPrefabs:
-  - {fileID: 1322510157125763251, guid: e80fcfc9f70e2c640a4d22775c8860de, type: 3}
+  - {fileID: 4660808867146941170, guid: 025b7d56a7643064687e41e389ef43ef, type: 3}
   SpamFruitPrefabs:
-  - {fileID: 5666828386441826132, guid: 0b624a2cd58aa69448b07b9d13e293c0, type: 3}
+  - {fileID: 6276776220640771546, guid: 580c8396e95c18047ba9a3adfd974d96, type: 3}
   Force: 12
   Lifetime: 5
 --- !u!1 &675265352
@@ -879,14 +881,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FruitPrefabs:
-  - {fileID: 1345022896480124042, guid: a90ffa1befc33e4479cfb37fb5dece47, type: 3}
-  - {fileID: 9137535743039622809, guid: 6a28310721d8ca54086c5c300a663b94, type: 3}
-  - {fileID: 3469416261526121853, guid: d5e3dc92758004c448ebb9c91d4562cd, type: 3}
-  - {fileID: 6161171722280899850, guid: 024483f068cf0b145911881e8958d511, type: 3}
+  - {fileID: 5949034688047163283, guid: 49972ed34bc3e254d8f4768cec94bc98, type: 3}
+  - {fileID: 7176844630677679440, guid: 4b37c1d6b16aef24583190de9a247074, type: 3}
+  - {fileID: 4808369367518280583, guid: 6975af2821db32c4e8645a0adaa0e6c8, type: 3}
+  - {fileID: 272017129307097736, guid: 2dc43af3302190548be1d06b96450543, type: 3}
+  - {fileID: 1714283284627777194, guid: 2e3b62f99be89bf4c9ad0a36424d1183, type: 3}
+  - {fileID: 5622247086229272440, guid: dffbbabe0c56917428eb727b6d95b09f, type: 3}
   BigFruitPrefabs:
-  - {fileID: 1322510157125763251, guid: e80fcfc9f70e2c640a4d22775c8860de, type: 3}
+  - {fileID: 4660808867146941170, guid: 025b7d56a7643064687e41e389ef43ef, type: 3}
   SpamFruitPrefabs:
-  - {fileID: 5666828386441826132, guid: 0b624a2cd58aa69448b07b9d13e293c0, type: 3}
+  - {fileID: 6276776220640771546, guid: 580c8396e95c18047ba9a3adfd974d96, type: 3}
   Force: 12
   Lifetime: 5
 --- !u!1 &860532807

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public AudioSource SongSource;
     public float SongTime => SongSource.time;
+    private SongEvent LastSongEvent;
 
     public Text ScoreText;
     public Image FadeImage;
@@ -32,23 +33,37 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewGame();
+        NewSong();
     }
 
     private void Update()
     {
-        var nextEventTime = _activeSong.Events.Peek().Time;
-        var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
-        while (SongTime > (nextEventTime + totalOffset))
+        ProcessSongEvents();
+    }
+
+    private void ProcessSongEvents()
+    {
+        if (_activeSong == null) return;
+        if (_activeSong.Events.Count == 0)
         {
-            if (_activeSong.Events.Count == 0) break;
+            _activeSong = null;
+            Invoke(nameof(EndSong), LastSongEvent.Duration + 3);
+            return;
+        }
+
+        var nextEventTime = _activeSong.Events.Peek().SpawnTime;
+        var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
+        if (SongTime > (nextEventTime + totalOffset))
+        {
             ExecuteSongEvent(_activeSong.Events.Dequeue());
-            nextEventTime = _activeSong.Events.Peek().Time;
+            // Recursive call to execute events which might happen at the same exact time
+            ProcessSongEvents();
         }
     }
 
     private void ExecuteSongEvent(SongEvent e)
     {
+        LastSongEvent = e;
         if (e is SpawnEvent spawnEvent)
         {
             if (spawnEvent.Side == SpawnerSide.Left) LeftSpawner.Spawn(spawnEvent);
@@ -56,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void NewGame()
+    private void NewSong()
     {
         Time.timeScale = 1f;
 
@@ -70,6 +85,13 @@ public class GameManager : MonoBehaviour
 
         SongSource.clip = _activeSong.Audio;
         SongSource.Play();
+    }
+
+    private void EndSong()
+    {
+        _activeSong = null;
+        SongSource.Stop();
+        ClearScene();
     }
 
     private void ClearScene()

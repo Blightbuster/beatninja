@@ -14,11 +14,12 @@ public class Fruit : Sliceable
     private int _hitCount = 0;
     public int HitsNeeded = 1;
 
-    private void Awake()
+    private void Start()
     {
         _fruitRigidbody = GetComponent<Rigidbody>();
         _fruitCollider = GetComponent<Collider>();
         _juiceEffect = GetComponentInChildren<ParticleSystem>();
+        HitsNeeded = ((SpawnNoteEvent)EventOrigin).HitsNeeded;
     }
 
     public override float Slice(Vector2 dir)

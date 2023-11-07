@@ -115,7 +115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5871354886834241202, guid: 925b90a1b303578478e9a9ca95e5df78, type: 3}
       propertyPath: looping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5871354886834241202, guid: 925b90a1b303578478e9a9ca95e5df78, type: 3}
       propertyPath: TrailModule.enabled

@@ -12,9 +12,7 @@ public class SpamFruit : Sliceable
     private ParticleSystem _juiceEffect;
     private float _firstHitTime = float.MaxValue;
 
-    public float Duration;
-
-    private void Awake()
+    private void Start()
     {
         _fruitRigidbody = GetComponent<Rigidbody>();
         _fruitCollider = GetComponent<Collider>();
@@ -23,7 +21,8 @@ public class SpamFruit : Sliceable
 
     private void Update()
     {
-        if (GameManager.Instance.SongTime > _firstHitTime + Duration) Explode();
+        // Make it explode once its set duration expires after it has been hit once
+        if (GameManager.Instance.SongTime > _firstHitTime + EventOrigin.Duration) Explode();
     }
 
     public override float Slice(Vector2 dir)

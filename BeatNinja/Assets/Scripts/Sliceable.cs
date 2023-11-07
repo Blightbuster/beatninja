@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Sliceable : MonoBehaviour
 {
     public bool IsSliced = false;
+
+    public SpawnEvent EventOrigin;
 
     /// <summary>
     /// Slices the object

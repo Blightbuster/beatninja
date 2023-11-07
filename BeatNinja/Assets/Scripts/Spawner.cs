@@ -12,21 +12,17 @@ public class Spawner : MonoBehaviour
 
     public void Spawn(SpawnEvent e)
     {
-        GameObject fruit = null;
+        GameObject[] prefabPool = null;
 
         if (e is SpawnNoteEvent note)
         {
-            // Choose big fruit if more than one hit is required
-            var prefab = PickRandom(note.HitsNeeded == 1 ? FruitPrefabs : BigFruitPrefabs);
-            fruit = Instantiate(prefab, this.transform.position, Random.rotation);
-            fruit.GetComponent<Fruit>().HitsNeeded = note.HitsNeeded;
+            // Choose big fruit pool if more than one hit is required
+            prefabPool = note.HitsNeeded == 1 ? FruitPrefabs : BigFruitPrefabs;
         }
-        else if (e is SpawnSpamNoteEvent spamNote)
-        {
-            fruit = Instantiate(PickRandom(SpamFruitPrefabs), this.transform.position, Random.rotation);
-            fruit.GetComponent<SpamFruit>().Duration = spamNote.Duration;
-        }
+        else if (e is SpawnSpamNoteEvent) prefabPool = SpamFruitPrefabs;
 
+        var fruit = Instantiate(PickRandom(prefabPool), this.transform.position, Random.rotation);
+        fruit.GetComponent<Sliceable>().EventOrigin = e;
         fruit.GetComponent<Rigidbody>().AddForce(this.transform.up * Force, ForceMode.Impulse);
 
         Destroy(fruit, Lifetime);   // Delete instance after lifetime has expired

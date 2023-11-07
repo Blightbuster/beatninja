@@ -41,7 +41,7 @@ public class Song
         }
 
         // Sort events and return them as a queue for faster access
-        events.Sort((a, b) => a.Time.CompareTo(b.Time));
+        events.Sort();
         return new Queue<SongEvent>(events);
     }
 
@@ -73,20 +73,19 @@ public class Song
                 // This should never throw an exception since every noteOff event must be preceded by a noteOn event
                 var on = notesDown.Where(n => n.Note == off.Note).First();
                 notesDown.Remove(on);
-                
-                var duration = TicksToTime(off.Time - on.Time);
 
                 SpawnEvent spawnEvent = (on.Note - GetOffset(side)) switch
                 {
                     Config.MidiParsing.SpawnNote => new SpawnNoteEvent(),
                     Config.MidiParsing.SpawnDoubleNote => new SpawnNoteEvent() { HitsNeeded = 2 },
-                    Config.MidiParsing.SpawnSpamNote => new SpawnSpamNoteEvent() { Duration = duration},
+                    Config.MidiParsing.SpawnSpamNote => new SpawnSpamNoteEvent(),
                     _ => throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}"),
                 };
 
-                // Set correct spawning side and time
+                // Set correct spawning side, time and duration
                 spawnEvent.Side = side;
-                spawnEvent.Time = TicksToTime(on.Time);
+                spawnEvent.SpawnTime = TicksToTime(on.Time);
+                spawnEvent.Duration = TicksToTime(off.Time - on.Time);
 
                 events.Add(spawnEvent);
             }
@@ -109,9 +108,18 @@ public enum SpawnerSide
     Right,
 }
 
-public abstract class SongEvent
+public abstract class SongEvent : IComparable
 {
-    public float Time;
+    public float SpawnTime;
+    public float Duration;
+
+    public int CompareTo(object o)
+    {
+        if (o is not SongEvent e) throw new ArgumentException();
+        var timeCompare = SpawnTime.CompareTo(e.SpawnTime);
+        if (timeCompare == 0) return Duration.CompareTo(e.Duration);
+        return timeCompare;
+    }
 }
 
 public abstract class SpawnEvent : SongEvent
@@ -130,7 +138,4 @@ public class SpawnNoteEvent : SpawnEvent
 /// They can be hit infinitely often while they are in the hit area.
 /// They only get sliced once their duration expires.
 /// </summary>
-public class SpawnSpamNoteEvent : SpawnEvent
-{
-    public float Duration;
-}
+public class SpawnSpamNoteEvent : SpawnEvent { }

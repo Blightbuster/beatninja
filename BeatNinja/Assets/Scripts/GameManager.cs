@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public SliceArea LeftSliceArea;
     public SliceArea RightSliceArea;
 
+    public StressReceiver CameraStressReceiver;
+
     private int _score;
     private Song _activeSong;
 
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int points)
     {
+        if (points > 0) CameraStressReceiver.InduceStress(points * 0.001f);
         _score += points;
         ScoreText.text = _score.ToString();
     }

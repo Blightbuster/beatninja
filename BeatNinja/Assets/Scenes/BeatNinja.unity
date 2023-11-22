@@ -1234,8 +1234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ee1c62c905bb24ea7c9cf3d9d40b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TraumaExponent: 1
-  MaximumAngularShake: {x: 2, y: 2, z: 2}
+  TraumaExponent: 0.5
+  MaximumAngularShake: {x: 0.5, y: 0.5, z: 0.5}
   MaximumTranslationShake: {x: 0, y: 0, z: 0}
 --- !u!1 &1214153305
 GameObject:

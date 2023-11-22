@@ -153,7 +153,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125672, guid: 73fe958b1f63d4b02be1f69bd78f702d, type: 3}
       propertyPath: m_Name
-      value: Pomegranate_Front
+      value: Pomegranate_Top
       objectReference: {fileID: 0}
     - target: {fileID: 446432, guid: 73fe958b1f63d4b02be1f69bd78f702d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -282,7 +282,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 138054, guid: 1321a7e04cdf745cebc34e2c6e057d43, type: 3}
       propertyPath: m_Name
-      value: Pomegranate_Back
+      value: Pomegranate_Bottom
       objectReference: {fileID: 0}
     - target: {fileID: 433316, guid: 1321a7e04cdf745cebc34e2c6e057d43, type: 3}
       propertyPath: m_LocalPosition.x

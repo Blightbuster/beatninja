@@ -1285,6 +1285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Blade: {fileID: 315977302}
+  PointsPopUpPrefab: {fileID: 194962638945394344, guid: 987de9d988611e244a188f8e478eb551, type: 3}
 --- !u!58 &1214153308
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1473,6 +1474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Blade: {fileID: 835024514}
+  PointsPopUpPrefab: {fileID: 194962638945394344, guid: 987de9d988611e244a188f8e478eb551, type: 3}
 --- !u!58 &1585035102
 CircleCollider2D:
   m_ObjectHideFlags: 0

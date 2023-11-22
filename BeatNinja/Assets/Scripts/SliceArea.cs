@@ -9,6 +9,7 @@ using UnityEngine;
 public class SliceArea : MonoBehaviour
 {
     public Blade Blade;
+    public GameObject PointsPopUpPrefab;
 
     private CircleCollider2D _collider;
     private SpriteRenderer _spriteRenderer;
@@ -43,9 +44,17 @@ public class SliceArea : MonoBehaviour
 
     public float Slice()
     {
+        var points = SliceInner();
+        var popUp = Instantiate(PointsPopUpPrefab, this.transform.position, Quaternion.identity);
+        popUp.GetComponent<TextPopUp>().SetText(((int)points).ToString());
+        return points;
+    }
+
+    private float SliceInner()
+    {
         var dir = Random.onUnitSphere;
         if (dir.y < 0) dir.y *= -1;
-        if(!Blade.Slice(dir)) return 0;
+        if (!Blade.Slice(dir)) return 0;
 
         var nearest = GetNearestSliceable();
         if (nearest == null) return Config.MissPenalty;

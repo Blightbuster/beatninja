@@ -52,6 +52,8 @@ public class SpamFruit : Sliceable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         SlicedObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
+        // TODO GetOrAddComponent is bugged?
+        // Perhaps it needs a update cycle to add the component?
         var slices = new List<Rigidbody>();
         foreach (Transform t in SlicedObject.transform) slices.Add(t.gameObject.GetOrAddComponent<Rigidbody>());
 

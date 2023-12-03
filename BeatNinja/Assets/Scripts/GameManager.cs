@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         }
 
         var nextEventTime = _activeSong.Events.Peek().SpawnTime;
-        var totalOffset = Config.User.LatencyOffset + Config.SliceableFlightOffset;
+        var totalOffset = Config.Data.User.LatencyOffset + Config.Data.SliceableFlightOffset;
         if (SongTime > (nextEventTime + totalOffset))
         {
             ExecuteSongEvent(_activeSong.Events.Dequeue());

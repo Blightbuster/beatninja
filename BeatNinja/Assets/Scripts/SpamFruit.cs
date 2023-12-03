@@ -33,7 +33,7 @@ public class SpamFruit : Sliceable
         if (_firstHitTime == float.MaxValue) _firstHitTime = GameManager.Instance.SongTime;
         SliceEffect.Play();
         _fruitRigidbody.isKinematic = true;
-        return Config.MaxHitPoints;
+        return Config.Data.MaxHitPoints;
     }
 
     private float Explode()
@@ -63,6 +63,6 @@ public class SpamFruit : Sliceable
             slice.velocity = _fruitRigidbody.velocity;
             slice.AddForceAtPosition(Vector2.up * 2, Vector2.up, ForceMode.Impulse);
         }
-        return Config.MaxHitPoints;
+        return Config.Data.MaxHitPoints;
     }
 }

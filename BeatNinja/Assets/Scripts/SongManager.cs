@@ -17,6 +17,7 @@ public class SongManager : MonoBehaviour
                 continue;
             }
 
+            Debug.Log($"Found Song: {wavPath}");
             Songs.Add(new Song(WavUtility.ToAudioClip(wavPath), new MidiFile(file)));
         }
     }

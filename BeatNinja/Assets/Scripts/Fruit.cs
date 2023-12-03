@@ -33,7 +33,7 @@ public class Fruit : Sliceable
         SliceEffect.Play();
 
         if (HitsNeeded == _hitCount) return FinalSlice(dir);
-        return Config.MaxHitPoints;
+        return Config.Data.MaxHitPoints;
     }
 
     private float FinalSlice(Vector2 dir)
@@ -51,7 +51,7 @@ public class Fruit : Sliceable
         var rb = this._fruitRigidbody.GetComponent<Rigidbody>();
         rb.velocity += new Vector3(dir.x, dir.y, 0) * -4f;
         HandleSlicedPieces();
-        return Config.MaxHitPoints;
+        return Config.Data.MaxHitPoints;
     }
 
     private void HandleSlicedPieces()

@@ -31,13 +31,10 @@ public class Song
 
             var name = track.TextEvents.Where(e => e.Type == (byte)TextEventType.TrackName).Select(e => e.Value).First();
 
-            var trackEvents = name switch
-            {
-                Config.MidiParsing.LeftSpawnTrackName => ParseSpawnTrack(track, SpawnerSide.Left),
-                Config.MidiParsing.RightSpawnTrackName => ParseSpawnTrack(track, SpawnerSide.Right),
-                _ => new(), // return empty list if the track name is unknown
-            };
-            events.AddRange(trackEvents);
+            List<SongEvent> trackEvents = null;
+            if (name == Config.Data.MidiParsing.LeftSpawnTrackName) trackEvents = ParseSpawnTrack(track, SpawnerSide.Left);
+            if (name == Config.Data.MidiParsing.RightSpawnTrackName) trackEvents = ParseSpawnTrack(track, SpawnerSide.Right);
+            if (trackEvents != null) events.AddRange(trackEvents);
         }
 
         // Sort events and return them as a queue for faster access
@@ -74,13 +71,12 @@ public class Song
                 var on = notesDown.Where(n => n.Note == off.Note).First();
                 notesDown.Remove(on);
 
-                SpawnEvent spawnEvent = (on.Note - GetOffset(side)) switch
-                {
-                    Config.MidiParsing.SpawnNote => new SpawnNoteEvent(),
-                    Config.MidiParsing.SpawnDoubleNote => new SpawnNoteEvent() { HitsNeeded = 2 },
-                    Config.MidiParsing.SpawnSpamNote => new SpawnSpamNoteEvent(),
-                    _ => throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}"),
-                };
+                var value = on.Note - GetOffset(side);
+                SpawnEvent spawnEvent = null;
+                if (value == Config.Data.MidiParsing.SpawnNote) spawnEvent = new SpawnNoteEvent();
+                if (value == Config.Data.MidiParsing.SpawnDoubleNote) spawnEvent = new SpawnNoteEvent() { HitsNeeded = 2 };
+                if (value == Config.Data.MidiParsing.SpawnSpamNote) spawnEvent = new SpawnSpamNoteEvent();
+                if (spawnEvent == null) throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}");
 
                 // Set correct spawning side, time and duration
                 spawnEvent.Side = side;
@@ -95,8 +91,8 @@ public class Song
 
     private int GetOffset(SpawnerSide side) => side switch
     {
-        SpawnerSide.Left => Config.MidiParsing.LeftSpawnOffset,
-        SpawnerSide.Right => Config.MidiParsing.RightSpawnOffset,
+        SpawnerSide.Left => Config.Data.MidiParsing.LeftSpawnOffset,
+        SpawnerSide.Right => Config.Data.MidiParsing.RightSpawnOffset,
     };
 
     private float TicksToTime(int ticks) => 60f / (float)(BPM * Midi.TicksPerQuarterNote) * (float)ticks;

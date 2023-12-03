@@ -57,8 +57,8 @@ public class SliceArea : MonoBehaviour
         if (!Blade.Slice(dir)) return 0;
 
         var nearest = GetNearestSliceable();
-        if (nearest == null) return Config.MissPenalty;
-        if (!_collider.OverlapPoint(nearest.transform.position)) return Config.MissPenalty;
+        if (nearest == null) return Config.Data.MissPenalty;
+        if (!_collider.OverlapPoint(nearest.transform.position)) return Config.Data.MissPenalty;
 
         var distance = Vector2.Distance(this.transform.position, nearest.transform.position);
         var nDistance = distance / _collider.radius;

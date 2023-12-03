@@ -25,7 +25,7 @@ public class Blade : MonoBehaviour
     /// <returns>False if not available</returns>
     public bool Slice(Vector2 dir)
     {
-        if (!Config.AlwaysAllowSlicing && _slicing) return false;
+        if (!Config.Data.AlwaysAllowSlicing && _slicing) return false;
         _start = dir * Radius;
         _end = dir * Radius * -1;
         _startTime = Time.unscaledTime;

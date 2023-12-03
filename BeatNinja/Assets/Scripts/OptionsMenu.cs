@@ -55,7 +55,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetLatency(float latency)
     {
-        Config.User.LatencyOffset = latency;
+        Config.Data.User.LatencyOffset = latency;
         latencySliderText.text = latency.ToString("0.00");
     }
 }

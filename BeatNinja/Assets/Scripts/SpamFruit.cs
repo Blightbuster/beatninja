@@ -52,10 +52,8 @@ public class SpamFruit : Sliceable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         SlicedObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        // TODO GetOrAddComponent is bugged?
-        // Perhaps it needs a update cycle to add the component?
         var slices = new List<Rigidbody>();
-        foreach (Transform t in SlicedObject.transform) slices.Add(t.gameObject.GetOrAddComponent<Rigidbody>());
+        foreach (Transform t in SlicedObject.transform) slices.Add(GetOrAddComponent<Rigidbody>(t.gameObject));
 
         // Add a force to each slice based on the blade direction
         foreach (Rigidbody slice in slices)
@@ -64,5 +62,10 @@ public class SpamFruit : Sliceable
             slice.AddForceAtPosition(Vector2.up * 2, Vector2.up, ForceMode.Impulse);
         }
         return Config.Data.MaxHitPoints;
+    }
+
+    public T GetOrAddComponent<T>(GameObject go) where T : Component
+    {
+        return go.TryGetComponent(out T val) ? val : go.AddComponent<T>();
     }
 }

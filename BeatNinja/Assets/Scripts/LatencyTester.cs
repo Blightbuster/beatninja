@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LatencyTester : MonoBehaviour
 {
@@ -44,6 +45,11 @@ public class LatencyTester : MonoBehaviour
 
     private void UpdateLatency()
     {
-        LatencyText.text = (int)(_delays.Average()*1000) + " ms";
+        LatencyText.text = (int)(_delays.Average() * 1000) + " ms";
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

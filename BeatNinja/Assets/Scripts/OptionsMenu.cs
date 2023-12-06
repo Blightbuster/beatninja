@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
 
-    public TMPro.TMP_Dropdown resolutionDropdown;
+    //public TMPro.TMP_Dropdown resolutionDropdown;
 
-    public TMPro.TMP_Text latencySliderText;
+    //public TMPro.TMP_Text latencySliderText;
 
     Resolution[] resolutions;
 
@@ -19,7 +20,7 @@ public class OptionsMenu : MonoBehaviour
         // set resolution dropdown options
         
         resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
+        //resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
 
@@ -37,9 +38,9 @@ public class OptionsMenu : MonoBehaviour
             }
         }
         
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+        //resolutionDropdown.AddOptions(options);
+        //resolutionDropdown.value = currentResolutionIndex;
+        //resolutionDropdown.RefreshShownValue();
     }
 
     public void SetVolume(float volume) 
@@ -56,6 +57,11 @@ public class OptionsMenu : MonoBehaviour
     public void SetLatency(float latency)
     {
         Config.Data.User.LatencyOffset = latency;
-        latencySliderText.text = latency.ToString("0.00");
+        //latencySliderText.text = latency.ToString("0.00");
+    }
+
+    public void OpenLatencyTest()
+    {
+        SceneManager.LoadScene("LatencyTest");
     }
 }

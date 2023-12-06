@@ -1,4 +1,6 @@
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -94,6 +96,13 @@ public class GameManager : MonoBehaviour
         _activeSong = null;
         SongSource.Stop();
         ClearScene();
+        Invoke(nameof(LoadMainMenu), 3);
+
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void ClearScene()

@@ -15,10 +15,10 @@ public class OptionsMenu : MonoBehaviour
 
     Resolution[] resolutions;
 
-    void Start() 
+    void Start()
     {
         // set resolution dropdown options
-        
+
         resolutions = Screen.resolutions;
         //resolutionDropdown.ClearOptions();
 
@@ -26,30 +26,31 @@ public class OptionsMenu : MonoBehaviour
 
         int currentResolutionIndex = 0;
 
-        for(int i=0; i<resolutions.Length; i++)
+        for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + "x" + resolutions[i].height;
             options.Add(option);
 
-            if (resolutions[i].width == Screen.currentResolution.width && 
+            if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
             {
                 currentResolutionIndex = i;
             }
         }
-        
+
         //resolutionDropdown.AddOptions(options);
         //resolutionDropdown.value = currentResolutionIndex;
         //resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetVolume(float volume) 
+    public void SetVolume(float volume)
     {
         // since the audioMixer volume is not linear!!!
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20); 
+        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
+        Debug.Log($"Set volume to: {volume}");
     }
 
-    public void SetFullscreen(bool isFullscreen) 
+    public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
@@ -57,6 +58,7 @@ public class OptionsMenu : MonoBehaviour
     public void SetLatency(float latency)
     {
         Config.Data.User.LatencyOffset = latency;
+        Debug.Log($"Set latency to: {latency}");
         //latencySliderText.text = latency.ToString("0.00");
     }
 

@@ -181,6 +181,10 @@ PrefabInstance:
       propertyPath: WholeObject
       value: 
       objectReference: {fileID: 4845084864538444892}
+    - target: {fileID: 4147756781799831094, guid: b7fa6097065621448a1cf2127d722301, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6086924256535913855, guid: b7fa6097065621448a1cf2127d722301, type: 3}
       propertyPath: m_Name
       value: Pineapple

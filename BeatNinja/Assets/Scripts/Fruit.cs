@@ -62,7 +62,7 @@ public class Fruit : Sliceable
             if (t.name.EndsWith("Top")) top = t.gameObject;
             if (t.name.EndsWith("Bottom")) bottom = t.gameObject;
             t.AddComponent<Rigidbody>();
-            t.AddComponent<SphereCollider>();
+            // t.AddComponent<SphereCollider>();
             t.GetComponent<Rigidbody>().velocity = this._fruitRigidbody.velocity;
         }
 

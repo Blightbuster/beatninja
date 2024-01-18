@@ -8,6 +8,14 @@ public class LogicScript : MonoBehaviour
     public GameObject obj_leftarea;
     public GameObject obj_righthand;
     public GameObject obj_rightarea;
+    
+    private int frameCount = 0; // frame counter
+    private Vector3 lLastPosition; // position of last time(left hand)
+    private Vector3 rLastPosition; // position of last time(right hand)
+    public int recordInterval = 30; // frame interval is 30
+    public Vector3 lPositionDifference;
+    public Vector3 rPositionDifference;
+
 
 
     // Start is called before the first frame update
@@ -20,13 +28,27 @@ public class LogicScript : MonoBehaviour
         obj_rightarea = GameObject.Find("Right");
         obj_righthand = GameObject.Find("Hand_R");
 
+        lLastPosition = obj_lefthand.transform.position;//initial position of left hand
+        Debug.Log("last position is " + lLastPosition);//test
+        rLastPosition = obj_righthand.transform.position;//initial position of right hand
+        Debug.Log("last position is " + rLastPosition);//test
 
     }
     // Update is called once per frame
     void Update()
     {
+        frameCount++;
+        if (frameCount >= recordInterval)
+        {
+            // record position
+            lRecordObjectPosition();
+            rRecordObjectPosition();
+            // reset frame count
+            frameCount = 0;
+        }
 
-        if (nearToCenterL() == true)
+
+        if (nearToCenterL() == true && System.Math.Abs(lPositionDifference.x) >= 0.2f && System.Math.Abs(lPositionDifference.y) >= 0.2f && System.Math.Abs(lPositionDifference.z) >= 0.2f)
         {
             //GameObject..GetComponent<SliceArea>().Slice();
             //Debug.Log("Near!");
@@ -35,7 +57,7 @@ public class LogicScript : MonoBehaviour
 
         }
 
-        if (nearToCenterR() == true)
+        if (nearToCenterR() == true && System.Math.Abs(rPositionDifference.x) >= 0.2f && System.Math.Abs(rPositionDifference.y) >= 0.2f && System.Math.Abs(rPositionDifference.z) >= 0.2f)
         {
             //GameObject..GetComponent<SliceArea>().Slice();
             //Debug.Log("Near!");
@@ -78,16 +100,35 @@ public class LogicScript : MonoBehaviour
 
     }
 
-    /* public bool isStill() {
-         //get the velocity of the current frame
-         Vector3 velocity = rb.velocity;
 
-         // determine if the object is in motion by assessing the magnitude of its velocity.
-         float speed = velocity.magnitude;
+    public void lRecordObjectPosition()
+    {
+        // record currend position
+        Vector3 currentPosition = obj_lefthand.transform.position;
 
-         if (speed == 0 ) {
-             return true;
-         }
-         else { return false; }
-     }*/
+        // 计算与上一次记录的坐标的差值
+        lPositionDifference = currentPosition - lLastPosition;
+
+        //  positionDifference
+        Debug.Log("Position Difference of left hand: " + lPositionDifference);
+
+        // update position
+        lLastPosition = currentPosition;
+    }
+
+    public void rRecordObjectPosition()
+    {
+        // record currend position
+        Vector3 currentPosition = obj_righthand.transform.position;
+
+        // 计算与上一次记录的坐标的差值
+        rPositionDifference = currentPosition - rLastPosition;
+
+        //  positionDifference
+        Debug.Log("Position Difference of right hand: " + rPositionDifference);
+
+        // update position
+        rLastPosition = currentPosition;
+    }
 }
+

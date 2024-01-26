@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LatencyTest.unity
     guid: 01a6a2ec883681f40872ae630da8770c
+  - enabled: 1
+    path: Assets/Scenes/SongEndMenu.unity
+    guid: dc3e75be63ee5414d93a9e1d43d0b65c
   m_configObjects: {}

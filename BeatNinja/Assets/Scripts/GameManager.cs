@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     public StressReceiver CameraStressReceiver;
 
-    private int _score;
-    private Song _activeSong;
+    public GameData ActiveSongGameData;
+    public Song ActiveSong;
 
     private void Awake()
     {
@@ -46,19 +46,19 @@ public class GameManager : MonoBehaviour
 
     private void ProcessSongEvents()
     {
-        if (_activeSong == null) return;
-        if (_activeSong.Events.Count == 0)
+        if (ActiveSong == null) return;
+        if (ActiveSong.Events.Count == 0)
         {
-            _activeSong = null;
+            ActiveSong = null;
             Invoke(nameof(EndSong), LastSongEvent.Duration + 3);
             return;
         }
 
-        var nextEventTime = _activeSong.Events.Peek().SpawnTime;
+        var nextEventTime = ActiveSong.Events.Peek().SpawnTime;
         var totalOffset = Config.Data.User.LatencyOffset + Config.Data.SliceableFlightOffset;
         if (SongTime > (nextEventTime + totalOffset))
         {
-            ExecuteSongEvent(_activeSong.Events.Dequeue());
+            ExecuteSongEvent(ActiveSong.Events.Dequeue());
             // Recursive call to execute events which might happen at the same exact time
             ProcessSongEvents();
         }
@@ -82,21 +82,26 @@ public class GameManager : MonoBehaviour
 
         _blade.enabled = true;
 
-        _score = 0;
-        ScoreText.text = _score.ToString();
-        _activeSong = SongManager.Songs[0];
+        ActiveSongGameData = new();
+        ScoreText.text = 0.ToString();
+        ActiveSong = SongManager.Songs[0];
 
-        SongSource.clip = _activeSong.Audio;
+        SongSource.clip = ActiveSong.Audio;
         SongSource.Play();
     }
 
     private void EndSong()
     {
-        _activeSong = null;
+        ActiveSong = null;
+        ActiveSongGameData.Finished = true;
         SongSource.Stop();
         ClearScene();
-        Invoke(nameof(LoadMainMenu), 3);
+        Invoke(nameof(LoadSongEndMenu), 3);
+    }
 
+    private void LoadSongEndMenu()
+    {
+        SceneManager.LoadScene("SongEndMenu");
     }
 
     private void LoadMainMenu()
@@ -117,8 +122,9 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int points)
     {
         if (points > 0) CameraStressReceiver.InduceStress(points * 0.001f);
-        _score += points;
-        ScoreText.text = _score.ToString();
+        if (points < 0) ActiveSongGameData.AirStrikes += 1;
+        ActiveSongGameData.Score += points;
+        ScoreText.text = ActiveSongGameData.Score.ToString();
     }
 
     public void LeftSlice()

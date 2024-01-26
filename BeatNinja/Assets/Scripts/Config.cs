@@ -16,6 +16,7 @@ public class Config
 
     public static void SaveConfig()
     {
+        _data ??= new();
         //Convert the ConfigData object to a JSON string.
         string json = JsonUtility.ToJson(_data);
 
@@ -26,7 +27,7 @@ public class Config
     public static void LoadConfig()
     {
         //Get the JSON string from the file on disk.
-        if (!File.Exists("config.json")) throw new Exception("Could not find config");
+        if (!File.Exists("config.json")) SaveConfig();
         string savedJson = File.ReadAllText("config.json");
 
         //Convert the JSON string back to a ConfigData object.

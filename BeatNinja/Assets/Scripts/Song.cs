@@ -29,7 +29,8 @@ public class Song
             // Skip if track has no name to match on
             if (track.TextEvents.Count == 0) continue;
 
-            var name = track.TextEvents.Where(e => e.Type == (byte)TextEventType.TrackName).Select(e => e.Value).First();
+            var name = track.TextEvents.Where(e => e.Type == (byte)TextEventType.TrackName).Select(e => e.Value).FirstOrDefault();
+            if (name == null || name.Trim() == "") continue;
 
             List<SongEvent> trackEvents = null;
             if (name == Config.Data.MidiParsing.LeftSpawnTrackName) trackEvents = ParseSpawnTrack(track, SpawnerSide.Left);

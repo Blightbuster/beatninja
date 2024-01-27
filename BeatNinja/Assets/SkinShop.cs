@@ -7,10 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SkinShop : MonoBehaviour
 {
-    public GameObject ssButton;
-    public GameObject ssScreen;
     public GameObject confirmBut;
-    public GameObject cancelBut;
     public GameObject screen1;
     public GameObject screen2;
     public GameObject screen3;
@@ -18,18 +15,12 @@ public class SkinShop : MonoBehaviour
     public int flag = 0;
 
     
-    public void openSS()
-    {
-        ssScreen.SetActive(true);
-        ssButton.SetActive(false);
-        Time.timeScale = (0); //pause the game
-    }
+ 
 
     public void Confirm()
     {
-        ssScreen.SetActive(false);
-        ssButton.SetActive(true);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
+        
+        
         if (flag == 1)
         {
 
@@ -37,7 +28,7 @@ public class SkinShop : MonoBehaviour
             screen2.SetActive(false);
             screen3.SetActive(false);
             screen4.SetActive(false);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
+            
         }
         else if (flag == 2)
         {
@@ -45,7 +36,7 @@ public class SkinShop : MonoBehaviour
             screen2.SetActive(true);
             screen3.SetActive(false);
             screen4.SetActive(false);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
+            
         }
         else if (flag == 3)
         {
@@ -53,7 +44,7 @@ public class SkinShop : MonoBehaviour
             screen2.SetActive(false);
             screen3.SetActive(true);
             screen4.SetActive(false);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
+            
         }
         else if (flag == 4)
         {
@@ -61,10 +52,10 @@ public class SkinShop : MonoBehaviour
             screen2.SetActive(false);
             screen3.SetActive(false);
             screen4.SetActive(true);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
+            
         }
-        //Debug.Log(SceneManager.GetActiveScene().name);//"Beatninja"
-        Time.timeScale = (1);
+        //Debug.Log(SceneManager.GetActiveScene().name); //"Beatninja"
+        
 
 
 
@@ -74,11 +65,7 @@ public class SkinShop : MonoBehaviour
 
     
 
-    public void Cancel() {
-
-        Time.timeScale = (1);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);//restart the game
-    }
+ 
 
 
     public void select1() {
@@ -101,4 +88,20 @@ public class SkinShop : MonoBehaviour
         Debug.Log("falg = 4");
     }
 
+    public void select5() {
+        flag = 5;
+        Debug.Log("flag = 5");
+    }
+
+    public void select6()
+    {
+        flag = 6;
+        Debug.Log("flag = 6");
+    }
+
+    public void select7()
+    {
+        flag = 7;
+        Debug.Log("flag = 7");
+    }
 }

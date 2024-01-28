@@ -5,7 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameData ActiveSongGameData;
+    public GameObject TabMenuEasy;
+    public GameObject TabMenuMedium;
+    public GameObject TabMenuHard;
+    public GameObject ScrollEasy;
+    public GameObject ScrollMedium;
+    public GameObject ScrollHard;
+
+    public void DefaultSongSelectMenu()
+    {
+        TabMenuEasy.SetActive(false);
+        TabMenuMedium.SetActive(false);
+        TabMenuHard.SetActive(false);
+        ScrollEasy.SetActive(false);
+        ScrollMedium.SetActive(false);
+        ScrollHard.SetActive(false);
+    }
 
     public void QuitGame()
     {

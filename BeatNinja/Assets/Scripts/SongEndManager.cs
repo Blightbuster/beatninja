@@ -24,7 +24,8 @@ public class SongEndManager : MonoBehaviour
         Star3.SetActive(_gameData.Rating >= 3);
 
         Config.Data.Progress.Coins += _gameData.CoinsAwarded;
-        Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
+        var save = Config.Data.Progress.Scores[_gameData.SongName];
+        if (save == null || _gameData.Percentage > save.Percentage) Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
         Config.SaveConfig();
     }
 

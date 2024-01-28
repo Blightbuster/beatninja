@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ public class Config
     {
         _data ??= new();
         //Convert the ConfigData object to a JSON string.
-        string json = JsonUtility.ToJson(_data);
+        string json = JsonConvert.SerializeObject(_data);
 
         //Write the JSON string to a file on disk.
         File.WriteAllText("config.json", json);
@@ -32,7 +33,7 @@ public class Config
         string savedJson = File.ReadAllText("config.json");
 
         //Convert the JSON string back to a ConfigData object.
-        _data = JsonUtility.FromJson<ConfigData>(savedJson);
+        _data = JsonConvert.DeserializeObject<ConfigData>(savedJson);
     }
 }
 

@@ -15,16 +15,17 @@ public class GameData
     public bool Finished = false;
     public int Misses = 0;
     public int AirStrikes = 0;
-    public int CoinsAwarded => Score *1000 / (MaxScore <= 0 ? 1 : MaxScore);
+    public int CoinsAwarded => (int)(1000 * Percentage);
+
+    public float Percentage => Score / (MaxScore <= 0 ? 1f : (float)MaxScore);
 
     public int Rating
     {
         get
         {
-            float ratio = Score / (MaxScore <= 0 ? 1f : (float)MaxScore);
-            if (ratio < 0.5f) return 0;
-            if (ratio <= 0.75f) return 1;
-            if (ratio <= 0.9f) return 2;
+            if (Percentage < 0.5f) return 0;
+            if (Percentage <= 0.75f) return 1;
+            if (Percentage <= 0.9f) return 2;
             return 3;
         }
     }

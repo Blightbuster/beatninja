@@ -5,10 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame()
-    {
-        SceneManager.LoadScene("BeatNinja");
-    }
+    public GameData ActiveSongGameData;
 
     public void QuitGame()
     {

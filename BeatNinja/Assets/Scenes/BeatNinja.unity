@@ -898,7 +898,6 @@ Transform:
   m_Children:
   - {fileID: 1442567885}
   - {fileID: 374154752}
-  - {fileID: 944443823}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &516771942 stripped
@@ -1991,50 +1990,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 165958, guid: 5c6271bf41944f94eab970950c2036a8, type: 3}
   m_PrefabInstance: {fileID: 1929422035}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &944443822
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 944443823}
-  - component: {fileID: 944443824}
-  m_Layer: 0
-  m_Name: SongManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &944443823
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944443822}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 462589210}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &944443824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944443822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5f7944d964d3b45abcb00b804308b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &950697705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 410412, guid: 5c6271bf41944f94eab970950c2036a8, type: 3}
@@ -3266,7 +3221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2029e1e563546de449e26436fe25cd8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SongManager: {fileID: 944443824}
+  SongManager: {fileID: 0}
   SongSource: {fileID: 963194229}
   ScoreText: {fileID: 860532809}
   FadeImage: {fileID: 1744158372}

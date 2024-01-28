@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -47,6 +48,7 @@ public sealed class ConfigData
 
     public MidiParsingConfig MidiParsing = new();
     public UserConfig User = new();
+    public ProgressData Progress = new();
 
     [Serializable]
     public sealed class MidiParsingConfig
@@ -67,5 +69,12 @@ public sealed class ConfigData
     public sealed class UserConfig
     {
         public float LatencyOffset = 0f;
+    }
+
+    [Serializable]
+    public sealed class ProgressData
+    {
+        public int Coins = 0;
+        public Dictionary<string, GameData> Scores = new();
     }
 }

@@ -9,16 +9,18 @@ public class Song
     public MidiFile Midi;
     public Queue<SongEvent> Events;
     public int BPM;
+    public string Name;
 
     /// <summary>
     /// Only songs with non changing BPM can be parsed
     /// </summary>
-    public Song(AudioClip audio, MidiFile midi)
+    public Song(AudioClip audio, MidiFile midi, string name)
     {
         Audio = audio;
         Midi = midi;
         BPM = GetBPM();
         Events = ParseMidi();
+        Name = name;
     }
 
     private Queue<SongEvent> ParseMidi()

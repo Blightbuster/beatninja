@@ -63,6 +63,6 @@ public class SliceArea : MonoBehaviour
         var distance = Vector2.Distance(this.transform.position, nearest.transform.position);
         var nDistance = distance / _collider.radius;
 
-        return nearest.Slice(dir) + (500f * (1f - nDistance));
+        return nearest.Slice(dir) * (1f - nDistance);
     }
 }

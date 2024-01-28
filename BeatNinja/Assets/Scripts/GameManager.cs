@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public SongManager SongManager;
+    private SongManager _songManager => MainManager.Instance.SongManager;
 
     public AudioSource SongSource;
     public float SongTime => SongSource.time;
@@ -25,8 +27,9 @@ public class GameManager : MonoBehaviour
 
     public StressReceiver CameraStressReceiver;
 
-    public GameData ActiveSongGameData;
     public Song ActiveSong;
+
+    private GameData _gameData => MainManager.Instance.ActiveSongGameData;
 
     private void Awake()
     {
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour
         LastSongEvent = e;
         if (e is SpawnEvent spawnEvent)
         {
+            _gameData.MaxScore += Config.Data.MaxHitPoints;
             if (spawnEvent.Side == SpawnerSide.Left) LeftSpawner.Spawn(spawnEvent);
             if (spawnEvent.Side == SpawnerSide.Right) RightSpawner.Spawn(spawnEvent);
         }
@@ -82,9 +86,9 @@ public class GameManager : MonoBehaviour
 
         _blade.enabled = true;
 
-        ActiveSongGameData = new();
         ScoreText.text = 0.ToString();
-        ActiveSong = SongManager.Songs[0];
+        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).First();
+        if (ActiveSong == null) throw new Exception($"Song could not be found {_gameData.SongName}");
 
         SongSource.clip = ActiveSong.Audio;
         SongSource.Play();
@@ -93,7 +97,7 @@ public class GameManager : MonoBehaviour
     private void EndSong()
     {
         ActiveSong = null;
-        ActiveSongGameData.Finished = true;
+        _gameData.Finished = true;
         SongSource.Stop();
         ClearScene();
         Invoke(nameof(LoadSongEndMenu), 3);
@@ -122,9 +126,9 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int points)
     {
         if (points > 0) CameraStressReceiver.InduceStress(points * 0.001f);
-        if (points < 0) ActiveSongGameData.AirStrikes += 1;
-        ActiveSongGameData.Score += points;
-        ScoreText.text = ActiveSongGameData.Score.ToString();
+        if (points < 0) _gameData.AirStrikes += 1;
+        _gameData.Score += points;
+        ScoreText.text = _gameData.Score.ToString();
     }
 
     public void LeftSlice()

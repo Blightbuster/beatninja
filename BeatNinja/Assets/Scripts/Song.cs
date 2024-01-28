@@ -64,14 +64,16 @@ public class Song
             if (e.Type == (byte)MidiEventType.NoteOn)
             {
                 // Check if note is already held down and add it if not
-                if (!notesDown.Any(n => n.Note == e.Note)) notesDown.Add(e);
+                //if (!notesDown.Any(n => n.Note == e.Note)) 
+                    notesDown.Add(e);
             }
             else if (e.Type == (byte)MidiEventType.NoteOff)
             {
                 var off = e;
 
-                // This should never throw an exception since every noteOff event must be preceded by a noteOn event
-                var on = notesDown.Where(n => n.Note == off.Note).First();
+                var onNotes = notesDown.Where(n => n.Note == off.Note);
+                if (onNotes.Count() == 0) continue;
+                var on = onNotes.First();
                 notesDown.Remove(on);
 
                 var value = on.Note - GetOffset(side);
@@ -79,7 +81,11 @@ public class Song
                 if (value == Config.Data.MidiParsing.SpawnNote) spawnEvent = new SpawnNoteEvent();
                 if (value == Config.Data.MidiParsing.SpawnDoubleNote) spawnEvent = new SpawnNoteEvent() { HitsNeeded = 2 };
                 if (value == Config.Data.MidiParsing.SpawnSpamNote) spawnEvent = new SpawnSpamNoteEvent();
-                if (spawnEvent == null) throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}");
+                if (spawnEvent == null)
+                {
+                    Debug.LogWarning($"Unknown spawn event {on.Note}");
+                    continue;
+                }
 
                 // Set correct spawning side, time and duration
                 spawnEvent.Side = side;

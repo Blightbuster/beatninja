@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         _blade.enabled = true;
 
         ScoreText.text = 0.ToString();
-        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).First();
+        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).FirstOrDefault();
         if (ActiveSong == null) throw new Exception($"Song could not be found {_gameData.SongName}");
 
         SongSource.clip = ActiveSong.Audio;

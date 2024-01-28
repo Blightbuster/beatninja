@@ -12,6 +12,12 @@ public class MainMenu : MonoBehaviour
     public GameObject ScrollMedium;
     public GameObject ScrollHard;
 
+    public void Start()
+    {
+        // Used to make sure the main manager initializes
+        var init = MainManager.Instance;
+    }
+
     public void DefaultSongSelectMenu()
     {
         TabMenuEasy.SetActive(false);

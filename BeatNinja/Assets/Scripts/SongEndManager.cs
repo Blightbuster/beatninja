@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class SongEndManager : MonoBehaviour
 {
@@ -24,8 +25,8 @@ public class SongEndManager : MonoBehaviour
         Star3.SetActive(_gameData.Rating >= 3);
 
         Config.Data.Progress.Coins += _gameData.CoinsAwarded;
-        var save = Config.Data.Progress.Scores[_gameData.SongName];
-        if (save == null || _gameData.Percentage > save.Percentage) Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
+        var exists = Config.Data.Progress.Scores.TryGetValue(_gameData.SongName, out var save);
+        if (!exists || _gameData.Percentage > save.Percentage) Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
         Config.SaveConfig();
     }
 

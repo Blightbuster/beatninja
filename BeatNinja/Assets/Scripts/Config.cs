@@ -76,6 +76,8 @@ public sealed class ConfigData
     public sealed class ProgressData
     {
         public int Coins = 0;
+        public int Character = 0;
+        public int Background = 0;
         public Dictionary<string, GameData> Scores = new();
     }
 }

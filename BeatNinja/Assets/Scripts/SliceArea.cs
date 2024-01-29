@@ -21,14 +21,25 @@ public class SliceArea : MonoBehaviour
         if (_collider.offset != Vector2.zero) Debug.LogError("The SliceArea's collider must not use an offset!");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        var nearest = GetNearestSliceable();
-        if (nearest == null) return;
-        var distance = Vector2.Distance(this.transform.position, nearest.transform.position);
-        var nDistance = distance / _collider.radius;
-        if (nDistance < 0.5f) _spriteRenderer.color = Color.red;
-        else _spriteRenderer.color = Color.white;
+        var nearest = GetSliceableInArea();
+        if (nearest == null)
+        {
+            _spriteRenderer.color = Color.white;
+            return;
+        }
+        _spriteRenderer.color = Color.red;
+    }
+
+    private Sliceable? GetSliceableInArea()
+    {
+        var cam = Camera.main.transform;
+        Debug.DrawRay(cam.position, _collider.transform.position - cam.position, Color.red);
+        var ray = new Ray(cam.position, (_collider.transform.position - cam.position).normalized);
+        //if(!Physics.Raycast(ray, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
+        if (!Physics.SphereCast(ray, _collider.radius, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
+        return hitInfo.transform.GetComponent<Sliceable>();
     }
 
     private Sliceable? GetNearestSliceable()
@@ -36,8 +47,7 @@ public class SliceArea : MonoBehaviour
         // Find all non-sliced sliceables
         var sliceables = FindObjectsByType<Sliceable>(FindObjectsSortMode.None).Where(s => !s.IsSliced);
 
-        // Since we dont care about the z-axis transmuting is fine here
-        var ordered = sliceables.OrderBy(x => Vector2.Distance(x.transform.position, this.transform.position));
+        var ordered = sliceables.OrderBy(x => Vector3.Distance(x.transform.position, this.transform.position));
         var nearest = ordered.FirstOrDefault(); // Default is null
         return nearest;
     }
@@ -46,7 +56,7 @@ public class SliceArea : MonoBehaviour
     {
         var points = SliceInner();
         var popUp = Instantiate(PointsPopUpPrefab, this.transform.position, Quaternion.identity);
-        popUp.GetComponent<TextPopUp>().SetText(((int)points).ToString());
+        popUp.GetComponentInChildren<TextPopUp>().SetText(((int)points).ToString());
         return points;
     }
 
@@ -56,7 +66,7 @@ public class SliceArea : MonoBehaviour
         if (dir.y < 0) dir.y *= -1;
         if (!Blade.Slice(dir)) return 0;
 
-        var nearest = GetNearestSliceable();
+        var nearest = GetSliceableInArea();
         if (nearest == null) return Config.Data.MissPenalty;
         if (!_collider.OverlapPoint(nearest.transform.position)) return Config.Data.MissPenalty;
 

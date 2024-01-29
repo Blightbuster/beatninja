@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,10 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public List<Transform> BackgroundSkins;
+
+    public Transform GameRoot;
 
     private SongManager _songManager => MainManager.Instance.SongManager;
 
@@ -45,6 +50,13 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         ProcessSongEvents();
+    }
+
+    private void LoadSelectedBackgroundSkin()
+    {
+        var transform = BackgroundSkins[Config.Data.Progress.SelectedBackgroundSkin];
+        GameRoot.position = transform.position;
+        GameRoot.rotation = transform.rotation;
     }
 
     private void ProcessSongEvents()

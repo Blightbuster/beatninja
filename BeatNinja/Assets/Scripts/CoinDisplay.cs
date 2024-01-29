@@ -9,9 +9,6 @@ public class CoinDisplay : MonoBehaviour
     public TextMeshProUGUI Text;
     void Update()
     {
-        var ni = new CultureInfo(CultureInfo.CurrentCulture.Name).NumberFormat;
-        ni.NumberGroupSeparator = " ";
-        ni.NumberGroupSizes = new int[] { 3 };
-        Text.text = Config.Data.Progress.Coins.ToString(ni);
+        Text.text = Config.Data.Progress.Coins.GroupInt();
     }
 }

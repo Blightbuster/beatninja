@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apple_R
       objectReference: {fileID: 0}
+    - target: {fileID: 113316, guid: ed27db4c023594ca283c13f1de0d33e6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 439776, guid: ed27db4c023594ca283c13f1de0d33e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -198,6 +202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apple_Top
       objectReference: {fileID: 0}
+    - target: {fileID: 121570, guid: c922a0d7bf1e54e13a3be9a49bbda09e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 498664, guid: c922a0d7bf1e54e13a3be9a49bbda09e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -259,6 +267,10 @@ PrefabInstance:
     - target: {fileID: 147386, guid: 94c2d23e3210d4cdf839273589c57078, type: 3}
       propertyPath: m_Name
       value: Apple_Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 147386, guid: 94c2d23e3210d4cdf839273589c57078, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 443164, guid: 94c2d23e3210d4cdf839273589c57078, type: 3}
       propertyPath: m_LocalPosition.x

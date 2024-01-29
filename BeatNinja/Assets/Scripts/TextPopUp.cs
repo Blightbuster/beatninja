@@ -28,9 +28,9 @@ public class TextPopUp : MonoBehaviour
         Text.alpha = Alpha.Evaluate(t);
 
         var rot = Rotation.Evaluate(t + _rng);
-        Text.transform.rotation = Quaternion.EulerRotation(0, 0, rot);
+        Text.transform.localRotation = Quaternion.EulerRotation(0, 0, rot);
 
-        this.transform.position += new Vector3(0, Speed.Evaluate(t), 0);
+        this.transform.localPosition += new Vector3(0, Speed.Evaluate(t), 0);
     }
 
     public void SetText(string text)

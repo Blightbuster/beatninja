@@ -62,6 +62,7 @@ public class ShopItem : MonoBehaviour
         {
             if (ItemType == ShopItemType.CharacterSkin) Config.Data.Progress.SelectedCharacterSkin = Id;
             else if (ItemType == ShopItemType.BackgroundSkin) Config.Data.Progress.SelectedBackgroundSkin = Id;
+            Config.SaveConfig();
             return;
         }
         if (Config.Data.Progress.Coins < Price) return;

@@ -42,16 +42,6 @@ public class SliceArea : MonoBehaviour
         return hitInfo.transform.GetComponent<Sliceable>();
     }
 
-    private Sliceable? GetNearestSliceable()
-    {
-        // Find all non-sliced sliceables
-        var sliceables = FindObjectsByType<Sliceable>(FindObjectsSortMode.None).Where(s => !s.IsSliced);
-
-        var ordered = sliceables.OrderBy(x => Vector3.Distance(x.transform.position, this.transform.position));
-        var nearest = ordered.FirstOrDefault(); // Default is null
-        return nearest;
-    }
-
     public float Slice()
     {
         var points = SliceInner();

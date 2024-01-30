@@ -54,7 +54,7 @@ public class SliceArea : MonoBehaviour
         var prefab = isMaxHit ? MaxPointsPopUpPrefab : PointsPopUpPrefab;
         var popUp = Instantiate(prefab, this.transform.position, Quaternion.identity);
         if (!isMaxHit) popUp.GetComponentInChildren<TextPopUp>().SetText(PointsToText(points));
-        if (points > 0) AudioSource.PlayClipAtPoint(SliceSound, Camera.main.transform.position, 0.05f);
+        if (points > 0) AudioSource.PlayClipAtPoint(SliceSound, Camera.main.transform.position, 0.1f);
         return points;
     }
 

@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pomegranate_Top
       objectReference: {fileID: 0}
+    - target: {fileID: 125672, guid: 73fe958b1f63d4b02be1f69bd78f702d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 446432, guid: 73fe958b1f63d4b02be1f69bd78f702d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -523,6 +527,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sparkle_ellow
       objectReference: {fileID: 0}
+    - target: {fileID: 4033412786151888123, guid: 49057b33ea71fbb4da4e8f02a8db9f28, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4123381426564554493, guid: 49057b33ea71fbb4da4e8f02a8db9f28, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -559,6 +567,10 @@ PrefabInstance:
     - target: {fileID: 131430, guid: d134746854ee047f48e8c93076aa037e, type: 3}
       propertyPath: m_Name
       value: Pomegranate
+      objectReference: {fileID: 0}
+    - target: {fileID: 131430, guid: d134746854ee047f48e8c93076aa037e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 403976, guid: d134746854ee047f48e8c93076aa037e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -682,6 +694,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shine_ellow
       objectReference: {fileID: 0}
+    - target: {fileID: 7938384439400024403, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7938384439505921122, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7938384439966319056, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291675544055480729, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -703,6 +731,10 @@ PrefabInstance:
     - target: {fileID: 138054, guid: 1321a7e04cdf745cebc34e2c6e057d43, type: 3}
       propertyPath: m_Name
       value: Pomegranate_Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 138054, guid: 1321a7e04cdf745cebc34e2c6e057d43, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 433316, guid: 1321a7e04cdf745cebc34e2c6e057d43, type: 3}
       propertyPath: m_LocalPosition.x

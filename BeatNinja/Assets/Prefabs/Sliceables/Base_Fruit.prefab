@@ -228,9 +228,21 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 992073375372238675, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401552673038253841, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3223031359271505891, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
       propertyPath: m_Name
       value: Water_blast_blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 3223031359271505891, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3655534939648197250, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
       propertyPath: playOnAwake
@@ -239,6 +251,10 @@ PrefabInstance:
     - target: {fileID: 3695276858293123405, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800941012966364305, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7744695064339893131, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
       propertyPath: playOnAwake

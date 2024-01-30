@@ -11,6 +11,7 @@ public class GameData
     public string SongName;
     public int MaxScore = 0;
     public int Score = 0;
+    public int Streak = 0;
     public int HighestStreak = 0;
     public bool Finished = false;
     public int Misses = 0;
@@ -28,5 +29,15 @@ public class GameData
             if (Percentage <= 0.9f) return 2;
             return 3;
         }
+    }
+
+    public GameData EmptyCopy()
+    {
+        return new GameData()
+        {
+            SongName = this.SongName,
+            DisplayTitle = this.DisplayTitle,
+            DisplayArtist = this.DisplayArtist,
+        };
     }
 }

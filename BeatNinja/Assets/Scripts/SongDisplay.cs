@@ -42,21 +42,12 @@ public class SongDisplay : MonoBehaviour
     public void LoadGameDataFromConfig()
     {
         var data = Config.Data.Progress.Scores.Where(s => s.Key == GameData.SongName).FirstOrDefault();
-        if (data.Value == null)
-        {
-            this.GameData = new GameData()
-            {
-                SongName = GameData.SongName,
-                DisplayTitle = GameData.DisplayTitle,
-                DisplayArtist = GameData.DisplayArtist,
-            };
-        }
-        else this.GameData = data.Value;
+        GameData = data.Value == null ? GameData.EmptyCopy() : data.Value;
     }
 
     public void PlaySong()
     {
-        MainManager.Instance.ActiveSongGameData = GameData;
+        MainManager.Instance.ActiveSongGameData = GameData.EmptyCopy();
         SceneManager.LoadScene("BeatNinja");
     }
 }

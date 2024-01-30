@@ -9,6 +9,7 @@ using UnityEngine;
 public class SliceArea : MonoBehaviour
 {
     public Blade Blade;
+    public AudioClip SliceSound;
     public GameObject PointsPopUpPrefab;
 
     private CircleCollider2D _collider;
@@ -24,7 +25,7 @@ public class SliceArea : MonoBehaviour
     private void FixedUpdate()
     {
         var nearest = GetSliceableInArea();
-        if (nearest == null)
+        if (nearest.sliceable == null)
         {
             _spriteRenderer.color = Color.white;
             return;
@@ -32,14 +33,14 @@ public class SliceArea : MonoBehaviour
         _spriteRenderer.color = Color.red;
     }
 
-    private Sliceable? GetSliceableInArea()
+    private (Sliceable? sliceable, float distance) GetSliceableInArea()
     {
         var cam = Camera.main.transform;
         Debug.DrawRay(cam.position, _collider.transform.position - cam.position, Color.red);
         var ray = new Ray(cam.position, (_collider.transform.position - cam.position).normalized);
         //if(!Physics.Raycast(ray, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
-        if (!Physics.SphereCast(ray, _collider.radius, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
-        return hitInfo.transform.GetComponent<Sliceable>();
+        if (!Physics.SphereCast(ray, _collider.radius, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return (null, 0);
+        return (hitInfo.transform.GetComponent<Sliceable>(), Vector3.Cross(ray.direction, hitInfo.point - ray.origin).magnitude);
     }
 
     public float Slice()
@@ -47,6 +48,7 @@ public class SliceArea : MonoBehaviour
         var points = SliceInner();
         var popUp = Instantiate(PointsPopUpPrefab, this.transform.position, Quaternion.identity);
         popUp.GetComponentInChildren<TextPopUp>().SetText(((int)points).ToString());
+        if (points > 0) AudioSource.PlayClipAtPoint(SliceSound, Camera.main.transform.position, 0.05f);
         return points;
     }
 
@@ -57,12 +59,9 @@ public class SliceArea : MonoBehaviour
         if (!Blade.Slice(dir)) return 0;
 
         var nearest = GetSliceableInArea();
-        if (nearest == null) return Config.Data.MissPenalty;
-        if (!_collider.OverlapPoint(nearest.transform.position)) return Config.Data.MissPenalty;
+        if (nearest.sliceable == null) return Config.Data.MissPenalty;
 
-        var distance = Vector2.Distance(this.transform.position, nearest.transform.position);
-        var nDistance = distance / _collider.radius;
-
-        return nearest.Slice(dir) * (1f - nDistance);
+        var nDistance = nearest.distance / _collider.radius;
+        return nearest.sliceable.Slice(dir) * (1f - nDistance);
     }
 }

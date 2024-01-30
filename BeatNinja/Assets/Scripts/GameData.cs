@@ -18,7 +18,7 @@ public class GameData
     public int AirStrikes = 0;
     public int CoinsAwarded => (int)(1000 * Percentage);
 
-    public float Percentage => Score / (MaxScore <= 0 ? 1f : (float)MaxScore);
+    public float Percentage => Score / (MaxScore <= 0 ? 1f : MaxScore);
 
     public int Rating
     {
@@ -30,6 +30,20 @@ public class GameData
             return 3;
         }
     }
+
+    public int StreakLevel
+    {
+        get
+        {
+            if (Streak < 5) return 0;
+            if (Streak <= 10) return 1;
+            if (Streak <= 20) return 2;
+            if (Streak <= 30) return 3;
+            return 4;
+        }
+    }
+
+    public float StreakMultiplier => 1.0f + (StreakLevel * 0.5f);
 
     public GameData EmptyCopy()
     {

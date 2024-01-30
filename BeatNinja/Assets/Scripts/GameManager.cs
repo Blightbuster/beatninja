@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> BackgroundSkins;
 
+    public List<GameObject> StreakStages;
+
     public Transform GameRoot;
 
     private SongManager _songManager => MainManager.Instance.SongManager;
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateStreakStageFX();
         ProcessSongEvents();
     }
 
@@ -138,9 +141,17 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int points)
     {
-        if (points > 0) CameraStressReceiver.InduceStress(points * 0.001f);
-        if (points < 0) _gameData.AirStrikes += 1;
-        _gameData.Score += points;
+        if (points > 0)
+        {
+            CameraStressReceiver.InduceStress(points * 0.001f);
+            _gameData.Streak++;
+        }
+        if (points < 0)
+        {
+            _gameData.AirStrikes += 1;
+            _gameData.Streak = 0;
+        }
+        _gameData.Score += (int)((float)points * _gameData.StreakMultiplier);
         ScoreText.text = _gameData.Score.ToString();
     }
 
@@ -154,5 +165,10 @@ public class GameManager : MonoBehaviour
     {
         var points = RightSliceArea.Slice();
         IncreaseScore((int)points);
+    }
+
+    public void UpdateStreakStageFX()
+    {
+        for (var i = 0; i < StreakStages.Count; i++) StreakStages[i].SetActive(_gameData.StreakLevel > i);
     }
 }

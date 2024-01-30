@@ -53,12 +53,22 @@ public class SliceArea : MonoBehaviour
         var isMaxHit = points == Config.Data.MaxHitPoints;
         var prefab = isMaxHit ? MaxPointsPopUpPrefab : PointsPopUpPrefab;
         var popUp = Instantiate(prefab, this.transform.position, Quaternion.identity);
-        if (!isMaxHit) popUp.GetComponentInChildren<TextPopUp>().SetText(((int)points).ToString());
+        if (!isMaxHit) popUp.GetComponentInChildren<TextPopUp>().SetText(PointsToText(points));
         if (points > 0) AudioSource.PlayClipAtPoint(SliceSound, Camera.main.transform.position, 0.05f);
         return points;
     }
 
-    private float SliceInner()
+    public string PointsToText(int points)
+    {
+        if (points < 0) return "MISS";
+        if (points < 30) return "BAD";
+        if (points < 50) return "OK";
+        if (points < 80) return "GOOD";
+        if (points < 90) return "SUPER";
+        return "MAX";
+    }
+
+    private int SliceInner()
     {
         var dir = Random.onUnitSphere;
         if (dir.y < 0) dir.y *= -1;
@@ -66,6 +76,6 @@ public class SliceArea : MonoBehaviour
 
         var nearest = GetSliceableInArea();
         if (nearest.sliceable == null) return Config.Data.MissPenalty;
-        return nearest.sliceable.Slice(dir) * (1f - nearest.distance);
+        return (int)(nearest.sliceable.Slice(dir) * (1f - nearest.distance));
     }
 }

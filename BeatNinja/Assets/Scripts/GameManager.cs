@@ -88,7 +88,8 @@ public class GameManager : MonoBehaviour
         LastSongEvent = e;
         if (e is SpawnEvent spawnEvent)
         {
-            _gameData.MaxScore += Config.Data.MaxHitPoints;
+            _gameData.MaxScore += (int)(Config.Data.MaxHitPoints * 2.8f);
+            if (spawnEvent is SpawnSpamNoteEvent) _gameData.MaxScore += (int)(Config.Data.MaxHitPoints * 2.8f * 4f);
             if (spawnEvent.Side == SpawnerSide.Left) LeftSpawner.Spawn(spawnEvent);
             if (spawnEvent.Side == SpawnerSide.Right) RightSpawner.Spawn(spawnEvent);
         }

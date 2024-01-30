@@ -11,6 +11,7 @@ public class SliceArea : MonoBehaviour
     public Blade Blade;
     public AudioClip SliceSound;
     public GameObject PointsPopUpPrefab;
+    public GameObject MaxPointsPopUpPrefab;
 
     private CircleCollider2D _collider;
     private SpriteRenderer _spriteRenderer;
@@ -30,7 +31,7 @@ public class SliceArea : MonoBehaviour
             _spriteRenderer.color = Color.white;
             return;
         }
-        _spriteRenderer.color = Color.red;
+        _spriteRenderer.color = Color.red * nearest.distance;
     }
 
     private (Sliceable? sliceable, float distance) GetSliceableInArea()
@@ -40,14 +41,19 @@ public class SliceArea : MonoBehaviour
         var ray = new Ray(cam.position, (_collider.transform.position - cam.position).normalized);
         //if(!Physics.Raycast(ray, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
         if (!Physics.SphereCast(ray, _collider.radius, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return (null, 0);
-        return (hitInfo.transform.GetComponent<Sliceable>(), Vector3.Cross(ray.direction, hitInfo.point - ray.origin).magnitude);
+        var distance = Vector3.Cross(ray.direction, hitInfo.point - ray.origin).magnitude;
+        var buffedNormedDistance = Mathf.Max(0, (distance / _collider.radius) - 0.2f);
+        Debug.DrawLine(Camera.main.transform.position, hitInfo.point, Color.green, 0.5f);
+        return (hitInfo.transform.GetComponent<Sliceable>(), buffedNormedDistance);
     }
 
     public float Slice()
     {
         var points = SliceInner();
-        var popUp = Instantiate(PointsPopUpPrefab, this.transform.position, Quaternion.identity);
-        popUp.GetComponentInChildren<TextPopUp>().SetText(((int)points).ToString());
+        var isMaxHit = points == Config.Data.MaxHitPoints;
+        var prefab = isMaxHit ? MaxPointsPopUpPrefab : PointsPopUpPrefab;
+        var popUp = Instantiate(prefab, this.transform.position, Quaternion.identity);
+        if (!isMaxHit) popUp.GetComponentInChildren<TextPopUp>().SetText(((int)points).ToString());
         if (points > 0) AudioSource.PlayClipAtPoint(SliceSound, Camera.main.transform.position, 0.05f);
         return points;
     }
@@ -60,8 +66,6 @@ public class SliceArea : MonoBehaviour
 
         var nearest = GetSliceableInArea();
         if (nearest.sliceable == null) return Config.Data.MissPenalty;
-
-        var nDistance = nearest.distance / _collider.radius;
-        return nearest.sliceable.Slice(dir) * (1f - nDistance);
+        return nearest.sliceable.Slice(dir) * (1f - nearest.distance);
     }
 }

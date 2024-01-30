@@ -42,7 +42,7 @@ public class Config
 public sealed class ConfigData
 {
     public bool AlwaysAllowSlicing = true;
-    public int MissPenalty = -10;
+    public int MissPenalty = -50;
     public int MaxHitPoints = 100;
 
     public float SliceableFlightOffset = -1.8f;

@@ -22,6 +22,7 @@ public class GameManagerLatencyTest : GameManager
     private void Awake()
     {
         Instance = this;
+        GameManager._instance = null;
         _blade = FindObjectOfType<Blade>();
     }
 

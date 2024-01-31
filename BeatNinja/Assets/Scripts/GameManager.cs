@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
+    protected static GameManager _instance;
     public static GameManager Instance => _instance ?? GameManagerLatencyTest.Instance;
 
     public List<Transform> BackgroundSkins;
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        GameManagerLatencyTest.Instance = null;
         _instance = this;
         _blade = FindObjectOfType<Blade>();
     }

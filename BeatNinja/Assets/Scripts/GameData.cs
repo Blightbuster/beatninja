@@ -16,7 +16,7 @@ public class GameData
     public bool Finished = false;
     public int Misses = 0;
     public int AirStrikes = 0;
-    public int CoinsAwarded => (int)(1000 * Percentage);
+    public int CoinsAwarded => Mathf.Max(0, (int)(1000 * Percentage));
 
     public float Percentage => Score / (MaxScore <= 0 ? 1f : MaxScore);
 

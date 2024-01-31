@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject LoadingGo;
 
+    public FreezeTransform CharacterTransformFreezer;
+    public FreezeTransform GameRootTransformFreezer;
+
     public Transform GameRoot;
 
     private SongManager _songManager => MainManager.Instance.SongManager;
@@ -51,19 +54,22 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LoadingGo.SetActive(true);
+        LoadSelectedBackgroundSkin();
+        LoadSelectedCharacterSkin();
+        CharacterTransformFreezer.Freeze();
+        GameRootTransformFreezer.Freeze();
+        LoadSong();
         Invoke(nameof(DelayedStart), 3f);
     }
 
     private void DelayedStart()
     {
-        LoadSelectedBackgroundSkin();
-        LoadSelectedCharacterSkin();
-        NewSong();
         LoadingGo.SetActive(false);
+        StartSong();
     }
 
     private void Update()
-    {
+    { 
         UpdateStreakStageFX();
         ProcessSongEvents();
     }
@@ -86,7 +92,7 @@ public class GameManager : MonoBehaviour
         if (ActiveSong.Events.Count == 0)
         {
             ActiveSong = null;
-            Invoke(nameof(EndSong), LastSongEvent.Duration + 3);
+            Invoke(nameof(EndSong), (LastSongEvent?.Duration ?? 0) + 3);
             return;
         }
 
@@ -112,7 +118,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void NewSong()
+    private void LoadSong()
     {
         Time.timeScale = 1f;
 
@@ -125,11 +131,16 @@ public class GameManager : MonoBehaviour
         if (ActiveSong == null) throw new Exception($"Song could not be found {_gameData.SongName}");
 
         SongSource.clip = ActiveSong.Audio;
+    }
+
+    private void StartSong() {
+
         SongSource.Play();
     }
 
     private void EndSong()
     {
+        Debug.Log("EndSong called!");
         ActiveSong = null;
         _gameData.Finished = true;
         SongSource.Stop();
@@ -139,6 +150,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadSongEndMenu()
     {
+        Debug.Log("LoadSongEndMenu called!");
         SceneManager.LoadScene("SongEndMenu");
     }
 

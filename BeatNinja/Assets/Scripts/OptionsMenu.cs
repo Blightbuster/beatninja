@@ -17,8 +17,8 @@ public class OptionsMenu : MonoBehaviour
 
     void Start()
     {
-        VolumeSlider.value = Config.Data.User.Volume;
-        LatencyInput.text = (Config.Data.User.LatencyOffset * 1000f).ToString();
+        if (VolumeSlider != null) VolumeSlider.value = Config.Data.User.Volume;
+        if (LatencyInput != null) LatencyInput.text = (Config.Data.User.LatencyOffset * 1000f).ToString();
         AudioListener.volume = Config.Data.User.Volume;
     }
 

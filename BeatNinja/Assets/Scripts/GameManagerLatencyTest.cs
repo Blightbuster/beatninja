@@ -9,34 +9,11 @@ using UnityEngine.UI;
 
 public class GameManagerLatencyTest : GameManager
 {
-    public static GameManagerLatencyTest Instance;
-
-    public List<Transform> BackgroundSkins;
-    public List<GameObject> CharacterSkins;
-
-    public List<GameObject> StreakStages;
-
-    public GameObject LoadingGo;
-
-    public FreezeTransform CharacterTransformFreezer;
-    public FreezeTransform GameRootTransformFreezer;
-
-    public Transform GameRoot;
+    public static new GameManagerLatencyTest Instance;
 
     private SongManager _songManager => MainManager.Instance.SongManager;
 
-    public Text ScoreText;
-    public Image FadeImage;
-
     private Blade _blade;
-
-    public Spawner LeftSpawner;
-    public Spawner RightSpawner;
-
-    public SliceArea LeftSliceArea;
-    public SliceArea RightSliceArea;
-
-    public StressReceiver CameraStressReceiver;
 
     public AudioClip BeatSound;
 
@@ -86,17 +63,17 @@ public class GameManagerLatencyTest : GameManager
     private void PlayBeatOnce() => AudioSource.PlayClipAtPoint(BeatSound, Camera.main.transform.position, 0.5f);
 
 
-    public void LoadMainMenu()
+    public new void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void LeftSlice()
+    public new void LeftSlice()
     {
         var points = LeftSliceArea.Slice();
     }
 
-    public void RightSlice()
+    public new void RightSlice()
     {
         var points = RightSliceArea.Slice();
     }

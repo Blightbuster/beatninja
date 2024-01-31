@@ -7,7 +7,10 @@ public class MainManager : MonoBehaviour
     private static MainManager _instance;
     public static MainManager Instance => _instance ??= Create();
 
-    public GameData ActiveSongGameData;
+    public GameData ActiveSongGameData = new GameData()
+    {
+        SongName = "LivinOnAPrayer"
+    };
 
     public SongManager SongManager;
 

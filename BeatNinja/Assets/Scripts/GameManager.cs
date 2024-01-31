@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public List<Transform> BackgroundSkins;
+    public List<GameObject> CharacterSkins;
 
     public List<GameObject> StreakStages;
 
@@ -46,7 +48,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Invoke(nameof(DelayedStart), 3f);
+    }
+
+    private void DelayedStart()
+    {
         LoadSelectedBackgroundSkin();
+        LoadSelectedCharacterSkin();
         NewSong();
     }
 
@@ -61,6 +69,11 @@ public class GameManager : MonoBehaviour
         var transform = BackgroundSkins[Config.Data.Progress.SelectedBackgroundSkin];
         GameRoot.position = transform.position;
         GameRoot.rotation = transform.rotation;
+    }
+
+    private void LoadSelectedCharacterSkin()
+    {
+        for (var i = 0; i < CharacterSkins.Count; i++) CharacterSkins[i].SetActive(i == Config.Data.Progress.SelectedCharacterSkin);
     }
 
     private void ProcessSongEvents()

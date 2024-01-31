@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -41,10 +42,20 @@ public class SliceArea : MonoBehaviour
         var ray = new Ray(cam.position, (_collider.transform.position - cam.position).normalized);
         //if(!Physics.Raycast(ray, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return null;
         if (!Physics.SphereCast(ray, _collider.radius, out var hitInfo, 200, 1 << LayerMask.NameToLayer("Sliceable"))) return (null, 0);
-        var distance = Vector3.Cross(ray.direction, hitInfo.point - ray.origin).magnitude;
-        var buffedNormedDistance = Mathf.Max(0, (distance / _collider.radius) - 0.2f);
         Debug.DrawLine(Camera.main.transform.position, hitInfo.point, Color.green, 0.5f);
-        return (hitInfo.transform.GetComponent<Sliceable>(), buffedNormedDistance);
+        return (hitInfo.transform.GetComponent<Sliceable>(), GetNormedDistanceToArea(hitInfo.point));
+    }
+
+    public float GetDistanceToArea(Vector3 point)
+    {
+        var cam = Camera.main.transform;
+        var ray = new Ray(cam.position, (_collider.transform.position - cam.position).normalized);
+        return Vector3.Cross(ray.direction, point - ray.origin).magnitude;
+    }
+
+    public float GetNormedDistanceToArea(Vector3 point)
+    { 
+        return Mathf.Max(0, (GetDistanceToArea(point) / _collider.radius) - 0.2f);
     }
 
     public float Slice()

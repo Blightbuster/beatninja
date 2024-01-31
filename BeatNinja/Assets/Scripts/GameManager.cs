@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> StreakStages;
 
+    public GameObject LoadingGo;
+
     public Transform GameRoot;
 
     private SongManager _songManager => MainManager.Instance.SongManager;
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        LoadingGo.SetActive(true);
         Invoke(nameof(DelayedStart), 3f);
     }
 
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
         LoadSelectedBackgroundSkin();
         LoadSelectedCharacterSkin();
         NewSong();
+        LoadingGo.SetActive(false);
     }
 
     private void Update()

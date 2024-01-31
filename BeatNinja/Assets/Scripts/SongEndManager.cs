@@ -17,7 +17,7 @@ public class SongEndManager : MonoBehaviour
 
     void Start()
     {
-        ScoreText.text = _gameData.Score.ToString();
+        ScoreText.text = _gameData.Finished ? _gameData.Score.ToString() : "FAILED";
         CoinsText.text = _gameData.CoinsAwarded.ToString();
 
         Star1.SetActive(_gameData.Rating >= 1);
@@ -26,7 +26,7 @@ public class SongEndManager : MonoBehaviour
 
         Config.Data.Progress.Coins += _gameData.CoinsAwarded;
         var exists = Config.Data.Progress.Scores.TryGetValue(_gameData.SongName, out var save);
-        if (!exists || _gameData.Percentage > save.Percentage) Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
+        if ((!exists || _gameData.Percentage > save.Percentage) && _gameData.Finished) Config.Data.Progress.Scores[_gameData.SongName] = _gameData;
         Config.SaveConfig();
     }
 

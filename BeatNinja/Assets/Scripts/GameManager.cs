@@ -1,3 +1,4 @@
+using Force.DeepCloner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    private static GameManager _instance;
+    public static GameManager Instance => GameManagerLatencyTest.Instance;
 
     public List<Transform> BackgroundSkins;
     public List<GameObject> CharacterSkins;
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour
         if (ActiveSong.Events.Count == 0)
         {
             ActiveSong = null;
+            _gameData.Finished = true;
             Invoke(nameof(EndSong), (LastSongEvent?.Duration ?? 0) + 3);
             return;
         }
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour
         _blade.enabled = true;
 
         ScoreText.text = 0.ToString();
-        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).FirstOrDefault();
+        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).FirstOrDefault().DeepClone();
         if (ActiveSong == null) throw new Exception($"Song could not be found {_gameData.SongName}");
 
         SongSource.clip = ActiveSong.Audio;
@@ -138,23 +141,22 @@ public class GameManager : MonoBehaviour
         SongSource.Play();
     }
 
-    private void EndSong()
+    public void EndSong()
     {
         Debug.Log("EndSong called!");
         ActiveSong = null;
-        _gameData.Finished = true;
         SongSource.Stop();
         ClearScene();
         Invoke(nameof(LoadSongEndMenu), 3);
     }
 
-    private void LoadSongEndMenu()
+    public void LoadSongEndMenu()
     {
         Debug.Log("LoadSongEndMenu called!");
         SceneManager.LoadScene("SongEndMenu");
     }
 
-    private void LoadMainMenu()
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }

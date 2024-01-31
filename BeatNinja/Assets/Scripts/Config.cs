@@ -69,6 +69,7 @@ public sealed class ConfigData
     [Serializable]
     public sealed class UserConfig
     {
+        public float Volume = 0.5f;
         public float LatencyOffset = 0f;
     }
 

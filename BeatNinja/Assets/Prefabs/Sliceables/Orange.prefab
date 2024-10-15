@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orange
       objectReference: {fileID: 0}
+    - target: {fileID: 154460, guid: f5195277c907d408cac99f5b69138668, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 431092, guid: f5195277c907d408cac99f5b69138668, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -198,6 +202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orange_Top
       objectReference: {fileID: 0}
+    - target: {fileID: 111402, guid: 1220bc12b167e4ae6b6c4d586eabd5f4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 403490, guid: 1220bc12b167e4ae6b6c4d586eabd5f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -259,6 +267,10 @@ PrefabInstance:
     - target: {fileID: 190542, guid: 4562de5dec81a441db27b5e02e215b6f, type: 3}
       propertyPath: m_Name
       value: Orange_Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 190542, guid: 4562de5dec81a441db27b5e02e215b6f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 442478, guid: 4562de5dec81a441db27b5e02e215b6f, type: 3}
       propertyPath: m_LocalPosition.x

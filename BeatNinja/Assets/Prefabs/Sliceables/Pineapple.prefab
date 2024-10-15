@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pineapple_Bottom
       objectReference: {fileID: 0}
+    - target: {fileID: 186808, guid: 3169b45239303455e961cbb806a192de, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 458652, guid: 3169b45239303455e961cbb806a192de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -73,6 +77,10 @@ PrefabInstance:
     - target: {fileID: 125242, guid: 19e3af33485ca460d8a05d3d8c9c9fcc, type: 3}
       propertyPath: m_Name
       value: Pineapple
+      objectReference: {fileID: 0}
+    - target: {fileID: 125242, guid: 19e3af33485ca460d8a05d3d8c9c9fcc, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 426710, guid: 19e3af33485ca460d8a05d3d8c9c9fcc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -259,6 +267,10 @@ PrefabInstance:
     - target: {fileID: 107464, guid: 091538ba54add49e9b8f1bccc1127f2d, type: 3}
       propertyPath: m_Name
       value: Pineapple_Top
+      objectReference: {fileID: 0}
+    - target: {fileID: 107464, guid: 091538ba54add49e9b8f1bccc1127f2d, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 439448, guid: 091538ba54add49e9b8f1bccc1127f2d, type: 3}
       propertyPath: m_LocalPosition.x

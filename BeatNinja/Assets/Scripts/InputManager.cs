@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+
     private void Update()
     {
         var left = Input.GetKeyDown(KeyCode.LeftArrow);

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coconut
       objectReference: {fileID: 0}
+    - target: {fileID: 110646, guid: 74d0dbcdc251f42f584cf08b75573076, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 468622, guid: 74d0dbcdc251f42f584cf08b75573076, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -75,6 +79,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1883892597036040925, guid: b7fa6097065621448a1cf2127d722301, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2565662320349375315, guid: b7fa6097065621448a1cf2127d722301, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -119,9 +127,17 @@ PrefabInstance:
       propertyPath: WholeObject
       value: 
       objectReference: {fileID: 1192081751274363894}
-    - target: {fileID: 4147756781799831094, guid: b7fa6097065621448a1cf2127d722301, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 3941885807860163231, guid: b7fa6097065621448a1cf2127d722301, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4276980241906242157, guid: b7fa6097065621448a1cf2127d722301, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5296700449855097119, guid: b7fa6097065621448a1cf2127d722301, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6086924256535913855, guid: b7fa6097065621448a1cf2127d722301, type: 3}
       propertyPath: m_Name
@@ -198,6 +214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coconut_Bottom
       objectReference: {fileID: 0}
+    - target: {fileID: 127800, guid: 04a85b938e4db485393f9f48831b12f5, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 423916, guid: 04a85b938e4db485393f9f48831b12f5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -259,6 +279,10 @@ PrefabInstance:
     - target: {fileID: 131308, guid: fb18f41c8e3bd4157b3a4eb7d79dcad5, type: 3}
       propertyPath: m_Name
       value: Coconut_Top
+      objectReference: {fileID: 0}
+    - target: {fileID: 131308, guid: fb18f41c8e3bd4157b3a4eb7d79dcad5, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 474548, guid: fb18f41c8e3bd4157b3a4eb7d79dcad5, type: 3}
       propertyPath: m_LocalPosition.x

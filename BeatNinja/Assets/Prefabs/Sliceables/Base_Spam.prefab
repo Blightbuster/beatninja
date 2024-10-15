@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 99545213318190051}
   - component: {fileID: 5600667015976274948}
   - component: {fileID: 3805668865500563993}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slice_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4919,7 +4919,7 @@ GameObject:
   - component: {fileID: 1391724000366404408}
   - component: {fileID: 6737416858572367002}
   - component: {fileID: 6732172520786833712}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Base_Spam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5016,7 +5016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552625777746424390}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sliced
   m_TagString: Untagged
   m_Icon: {fileID: 0}

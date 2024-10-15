@@ -9,16 +9,18 @@ public class Song
     public MidiFile Midi;
     public Queue<SongEvent> Events;
     public int BPM;
+    public string Name;
 
     /// <summary>
     /// Only songs with non changing BPM can be parsed
     /// </summary>
-    public Song(AudioClip audio, MidiFile midi)
+    public Song(AudioClip audio, MidiFile midi, string name)
     {
         Audio = audio;
         Midi = midi;
         BPM = GetBPM();
         Events = ParseMidi();
+        Name = name;
     }
 
     private Queue<SongEvent> ParseMidi()
@@ -29,7 +31,8 @@ public class Song
             // Skip if track has no name to match on
             if (track.TextEvents.Count == 0) continue;
 
-            var name = track.TextEvents.Where(e => e.Type == (byte)TextEventType.TrackName).Select(e => e.Value).First();
+            var name = track.TextEvents.Where(e => e.Type == (byte)TextEventType.TrackName).Select(e => e.Value).FirstOrDefault();
+            if (name == null || name.Trim() == "") continue;
 
             List<SongEvent> trackEvents = null;
             if (name == Config.Data.MidiParsing.LeftSpawnTrackName) trackEvents = ParseSpawnTrack(track, SpawnerSide.Left);
@@ -61,14 +64,16 @@ public class Song
             if (e.Type == (byte)MidiEventType.NoteOn)
             {
                 // Check if note is already held down and add it if not
-                if (!notesDown.Any(n => n.Note == e.Note)) notesDown.Add(e);
+                //if (!notesDown.Any(n => n.Note == e.Note)) 
+                    notesDown.Add(e);
             }
             else if (e.Type == (byte)MidiEventType.NoteOff)
             {
                 var off = e;
 
-                // This should never throw an exception since every noteOff event must be preceded by a noteOn event
-                var on = notesDown.Where(n => n.Note == off.Note).First();
+                var onNotes = notesDown.Where(n => n.Note == off.Note);
+                if (onNotes.Count() == 0) continue;
+                var on = onNotes.First();
                 notesDown.Remove(on);
 
                 var value = on.Note - GetOffset(side);
@@ -76,7 +81,11 @@ public class Song
                 if (value == Config.Data.MidiParsing.SpawnNote) spawnEvent = new SpawnNoteEvent();
                 if (value == Config.Data.MidiParsing.SpawnDoubleNote) spawnEvent = new SpawnNoteEvent() { HitsNeeded = 2 };
                 if (value == Config.Data.MidiParsing.SpawnSpamNote) spawnEvent = new SpawnSpamNoteEvent();
-                if (spawnEvent == null) throw new ArgumentOutOfRangeException($"Unknown spawn event {on.Note}");
+                if (spawnEvent == null)
+                {
+                    Debug.LogWarning($"Unknown spawn event {on.Note}");
+                    continue;
+                }
 
                 // Set correct spawning side, time and duration
                 spawnEvent.Side = side;

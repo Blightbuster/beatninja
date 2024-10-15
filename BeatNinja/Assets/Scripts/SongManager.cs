@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class SongManager : MonoBehaviour
@@ -18,7 +20,7 @@ public class SongManager : MonoBehaviour
             }
 
             Debug.Log($"Found Song: {wavPath}");
-            Songs.Add(new Song(WavUtility.ToAudioClip(wavPath), new MidiFile(file)));
+            Songs.Add(new Song(WavUtility.ToAudioClip(wavPath), new MidiFile(file), Path.GetFileNameWithoutExtension(file)));
         }
     }
 }

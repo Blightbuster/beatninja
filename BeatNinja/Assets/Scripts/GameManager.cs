@@ -1,12 +1,30 @@
+using Force.DeepCloner;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    protected static GameManager _instance;
+    public static GameManager Instance => _instance ?? GameManagerLatencyTest.Instance;
 
-    public SongManager SongManager;
+    public List<Transform> BackgroundSkins;
+    public List<GameObject> CharacterSkins;
+
+    public List<GameObject> StreakStages;
+
+    public GameObject LoadingGo;
+
+    public FreezeTransform CharacterTransformFreezer;
+    public FreezeTransform GameRootTransformFreezer;
+
+    public Transform GameRoot;
+
+    private SongManager _songManager => MainManager.Instance.SongManager;
 
     public AudioSource SongSource;
     public float SongTime => SongSource.time;
@@ -25,40 +43,68 @@ public class GameManager : MonoBehaviour
 
     public StressReceiver CameraStressReceiver;
 
-    private int _score;
-    private Song _activeSong;
+    public Song ActiveSong;
+
+    private GameData _gameData => MainManager.Instance.ActiveSongGameData;
 
     private void Awake()
     {
-        Instance = this;
+        GameManagerLatencyTest.Instance = null;
+        _instance = this;
         _blade = FindObjectOfType<Blade>();
     }
 
     private void Start()
     {
-        NewSong();
+        LoadingGo.SetActive(true);
+        LoadSelectedBackgroundSkin();
+        LoadSelectedCharacterSkin();
+        CharacterTransformFreezer.Freeze();
+        GameRootTransformFreezer.Freeze();
+        LoadSong();
+        Invoke(nameof(DelayedStart), 3f);
+    }
+
+    private void DelayedStart()
+    {
+        LoadingGo.SetActive(false);
+        StartSong();
     }
 
     private void Update()
-    {
+    { 
+        UpdateStreakStageFX();
         ProcessSongEvents();
+    }
+
+    private void LoadSelectedBackgroundSkin()
+    {
+        var transform = BackgroundSkins[Config.Data.Progress.SelectedBackgroundSkin];
+        GameRoot.position = transform.position;
+        GameRoot.rotation = transform.rotation;
+    }
+
+    private void LoadSelectedCharacterSkin()
+    {
+        for (var i = 0; i < CharacterSkins.Count; i++) CharacterSkins[i].SetActive(i == Config.Data.Progress.SelectedCharacterSkin);
     }
 
     private void ProcessSongEvents()
     {
-        if (_activeSong == null) return;
-        if (_activeSong.Events.Count == 0)
+        if (ActiveSong == null) return;
+        if (ActiveSong.Events.Count == 0)
         {
-            _activeSong = null;
-            Invoke(nameof(EndSong), LastSongEvent.Duration + 3);
+            ActiveSong = null;
+            _gameData.Finished = true;
+            Invoke(nameof(EndSong), (LastSongEvent?.Duration ?? 0) + 3);
             return;
         }
 
-        var nextEventTime = _activeSong.Events.Peek().SpawnTime;
+        var nextEventTime = ActiveSong.Events.Peek().SpawnTime;
         var totalOffset = Config.Data.User.LatencyOffset + Config.Data.SliceableFlightOffset;
         if (SongTime > (nextEventTime + totalOffset))
         {
-            ExecuteSongEvent(_activeSong.Events.Dequeue());
+            ExecuteSongEvent(ActiveSong.Events.Dequeue());
             // Recursive call to execute events which might happen at the same exact time
             ProcessSongEvents();
         }
@@ -69,12 +115,14 @@ public class GameManager : MonoBehaviour
         LastSongEvent = e;
         if (e is SpawnEvent spawnEvent)
         {
+            _gameData.MaxScore += (int)(Config.Data.MaxHitPoints * 2.8f);
+            if (spawnEvent is SpawnSpamNoteEvent) _gameData.MaxScore += (int)(Config.Data.MaxHitPoints * 2.8f * 4f);
             if (spawnEvent.Side == SpawnerSide.Left) LeftSpawner.Spawn(spawnEvent);
             if (spawnEvent.Side == SpawnerSide.Right) RightSpawner.Spawn(spawnEvent);
         }
     }
 
-    private void NewSong()
+    private void LoadSong()
     {
         Time.timeScale = 1f;
 
@@ -82,24 +130,34 @@ public class GameManager : MonoBehaviour
 
         _blade.enabled = true;
 
-        _score = 0;
-        ScoreText.text = _score.ToString();
-        _activeSong = SongManager.Songs[0];
+        ScoreText.text = 0.ToString();
+        ActiveSong = _songManager.Songs.Where(s => s.Name == _gameData.SongName).FirstOrDefault().DeepClone();
+        if (ActiveSong == null) throw new Exception($"Song could not be found {_gameData.SongName}");
 
-        SongSource.clip = _activeSong.Audio;
+        SongSource.clip = ActiveSong.Audio;
+    }
+
+    private void StartSong() {
+
         SongSource.Play();
     }
 
-    private void EndSong()
+    public void EndSong()
     {
-        _activeSong = null;
+        Debug.Log("EndSong called!");
+        ActiveSong = null;
         SongSource.Stop();
         ClearScene();
-        Invoke(nameof(LoadMainMenu), 3);
-
+        Invoke(nameof(LoadSongEndMenu), 3);
     }
 
-    private void LoadMainMenu()
+    public void LoadSongEndMenu()
+    {
+        Debug.Log("LoadSongEndMenu called!");
+        SceneManager.LoadScene("SongEndMenu");
+    }
+
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
@@ -116,9 +174,18 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int points)
     {
-        if (points > 0) CameraStressReceiver.InduceStress(points * 0.001f);
-        _score += points;
-        ScoreText.text = _score.ToString();
+        if (points > 0)
+        {
+            CameraStressReceiver.InduceStress(points * 0.001f);
+            _gameData.Streak++;
+        }
+        if (points < 0)
+        {
+            _gameData.AirStrikes += 1;
+            _gameData.Streak = 0;
+        }
+        _gameData.Score += (int)((float)points * _gameData.StreakMultiplier);
+        ScoreText.text = _gameData.Score.ToString();
     }
 
     public void LeftSlice()
@@ -131,5 +198,10 @@ public class GameManager : MonoBehaviour
     {
         var points = RightSliceArea.Slice();
         IncreaseScore((int)points);
+    }
+
+    public void UpdateStreakStageFX()
+    {
+        for (var i = 0; i < StreakStages.Count; i++) StreakStages[i].SetActive(_gameData.StreakLevel > i);
     }
 }
